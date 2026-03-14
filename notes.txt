@@ -22,6 +22,8 @@ notes lot 2 :
 	
 	INSERT INTO Fenetres(fenetreKey, fenetreLocation, fenetreStyleSheet, fenetreStageTitle, fenetreStageIcone, fenetreLoaderMsgErreur)
 	VALUES('InfoDetailAdmin', '/views/administration/InfoDetailAdmin.fxml', '/style/application.css', 'Ag''immo - Administration des tables', 'file:src/images/administration.jpg', 'Erreur d''appel de la fenêtre d''administration des tables');
+	
+lot 2_4 à finir
 
 notes lot 2 :
 
