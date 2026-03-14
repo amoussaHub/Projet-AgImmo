@@ -1,0 +1,193 @@
+.label24B{
+   -fx-font-size: 24px;
+   -fx-font-family: "Arial";
+   -fx-font-style: italic;
+   -fx-font-weight: bold; 	
+}
+.label14B{
+   -fx-font-size: 14px;
+   -fx-font-family: "Arial";
+   -fx-font-style: italic;
+   -fx-font-weight: bold; 
+   -fx-padding: 5px;
+   -fx-border-insets: 5px;
+   -fx-background-insets: 5px;
+}
+.LabelWhite{
+	-fx-text-fill:#FFFFFF;
+}
+.btn{
+    -fx-background-color: 
+        #090a0c,
+        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
+        linear-gradient(#20262b, #191d22),
+        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-font-family: "Arial";
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 10px;
+    -fx-padding: 10 20 10 20;
+}
+.btnGreen {
+    -fx-background-color:
+        linear-gradient(#f0ff35, #a9ff00),
+        radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);
+    -fx-background-radius: 6, 5;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #395306;
+}
+.btnGrey {
+    -fx-background-color: 
+        linear-gradient(#f2f2f2, #d6d6d6),
+        linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%),
+        linear-gradient(#dddddd 0%, #f6f6f6 50%);
+    -fx-background-radius: 8,7,6;
+    -fx-background-insets: 0,1,2;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+.btnRoundRed {
+    -fx-background-color: linear-gradient(#ff5400, #be1d00);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+}
+.btnAnnuler {
+    -fx-background-color: 
+        #a6b5c9,
+        linear-gradient(#303842 0%, #3e5577 20%, #375074 100%),
+        linear-gradient(#768aa5 0%, #849cbb 5%, #5877a2 50%, #486a9a 51%, #4a6c9b 100%);
+    -fx-background-insets: 0 0 -1 0,0,1;
+    -fx-background-radius: 5,5,4;
+    -fx-padding: 7 30 7 30;
+    -fx-text-fill: #242d35;
+    -fx-font-family: "Helvetica";
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+}
+.messageErreur{
+   -fx-font-size: 12px;
+   -fx-font-family: "Arial";
+   -fx-font-style: italic;
+   -fx-font-weight: bold;
+   -fx-text-fill: #ee0312; 	
+}
+.Titre{
+   -fx-font-size: 24px;
+   -fx-font-family: "Arial";
+   -fx-font-style: italic;
+   -fx-font-weight: bold; 	
+}
+.zoneEnErreur{
+	-fx-border-color : #ee0312; 
+	-fx-border-width : 1px;
+}
+.cadreGridPane{
+	-fx-border-color : #757575; 
+	-fx-border-width : 2px;
+	-fx-background-color:#BDBDBD;
+}
+.btnRichBlue {
+    -fx-background-color: 
+        #000000,
+        linear-gradient(#7ebcea, #2f4b8f),
+        linear-gradient(#426ab7, #263e75),
+        linear-gradient(#395cab, #223768);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+.directionActive{
+    -fx-text-fill: #1d0af2; 	
+}
+.directionInactive{
+   -fx-text-fill: #828E4E; 	
+}
+.feuEteint{
+	-fx-fill: #000000;
+}
+.feuVert{
+	-fx-fill: #01DF01;
+}
+.feuOrange{
+	-fx-fill: #FE9A2E;
+}
+.feuRouge{
+	-fx-fill: #DF0101;
+}
+#menuCircuits {
+	-fx-background-image: url("../images/logoCircuit.jpg");
+	-fx-background-size: 200px 150px;
+}
+.croisements{
+	-fx-font-size: 24px;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-text-fill: #ee0312; 	
+}
+.virages{
+	-fx-font-size: 24px;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-text-fill: #1d0af2; 	
+}
+.imageLogin {
+	-fx-background-color: #EFFBFB;
+	-fx-effect: innershadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+.btnLogin {
+	-fx-padding: 10px 100px;
+}
+.btnLogin:hover{
+	-fx-opacity: 0.5;
+	-fx-background-color: #CECEF6;
+}
+.titre{
+   -fx-font-size: 36px;
+   -fx-font-family: "Times New Roman";
+   -fx-font-style: italic;
+   -fx-font-weight: bold; 
+}
+.saisie{
+   -fx-font-size: 14px;
+   -fx-font-family: "Arial";
+}
+.label14{
+   -fx-font-size: 14px;
+   -fx-font-family: "Arial";
+}
+.label20{
+   -fx-font-size: 20px;
+   -fx-font-family: "Arial";
+   -fx-font-style: italic;
+   -fx-font-weight: bold; 	
+}
+button{
+   -fx-font-family: "Arial";
+   -fx-font-size: 12px;
+}
+.mesage{
+   -fx-font-size: 12px;
+   -fx-font-family: "Arial";
+   -fx-font-style: italic;
+   -fx-font-weight: bold; 	
+}
+.mesageErreur{
+   -fx-font-size: 12px;
+   -fx-font-family: "Arial";
+   -fx-font-style: italic;
+   -fx-font-weight: bold;
+   -fx-text-fill: #ee0312; 	
+}
+.zoneObligatoire {
+   -fx-font-size: 18px;
+   -fx-font-family: "Arial";
+   -fx-font-weight: bold;
+   -fx-text-fill: #ee0312; 	
+}

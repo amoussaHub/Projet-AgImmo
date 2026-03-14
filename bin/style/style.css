@@ -1,0 +1,123 @@
+/* ----------------------------------------------------------------------------------------------------------------- */
+/* Styles des différentes étiquettes (Label) de l'application  */
+/* ----------------------------------------------------------------------------------------------------------------- */
+Label{
+   -fx-font-family						: "Cambria";
+   -fx-font-weight						: bold; 	
+   -fx-padding							: 5px;
+   -fx-border-insets					: 5px;
+   -fx-background-insets				: 5px;
+}
+.grandeEtiquette{
+   -fx-font-size						: 24px;
+}
+.moyenneEtiquette{
+   -fx-font-size						: 20px;
+}
+.petiteEtiquette {
+   -fx-font-size						: 14px;
+}
+.petiteEtiquetteItalic {
+   -fx-font-size						: 14px;
+   -fx-font-style						: italic;
+}
+.etiquetteWhite{
+	-fx-text-fill						:#FFFFFF;
+}
+.etiquetteRed{
+	-fx-text-fill						:#F01414;
+}
+.messageErreur{
+   -fx-font-size						: 12px;
+   -fx-text-fill						: #ee0312; 	
+}
+.titre{
+   -fx-font-size						: 36px;
+   -fx-effect							: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );	
+}
+.message {
+   -fx-font-size						: 12px;
+   -fx-font-style						: italic;
+}
+.version{
+   -fx-font-size						: 8px;
+   -fx-text-fill						: #FFFFFF;
+}
+/* ----------------------------------------------------------------------------------------------------------------- */
+/* Styles des différents boutons de l'application  */
+/* ----------------------------------------------------------------------------------------------------------------- */
+Button {
+    -fx-background-insets				: 0 0 -1 0,0,1;
+    -fx-background-radius				: 5,5,4;
+    -fx-padding							: 7 30 7 30;
+    -fx-font-family						: "Helvetica";
+    -fx-font-size						: 12px;
+    -fx-effect							: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );	
+    -fx-text-fill						: #242d35;
+    -fx-text-fill						: linear-gradient(white, #d0d0d0);
+}
+.btnVisualiser {
+    -fx-background-color				: #000000,linear-gradient(#7ebcea, #2f4b8f),linear-gradient(#426ab7, #263e75),linear-gradient(#395cab, #223768);
+}
+.btnValider{
+    -fx-background-color				:#090a0c,linear-gradient(#20262b, #191d22),radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+}
+.btnAnnuler {
+    -fx-background-color				:#a6b5c9,linear-gradient(#303842 0%, #3e5577 20%, #375074 100%),linear-gradient(#768aa5 0%, #849cbb 5%, #5877a2 50%, #486a9a 51%, #4a6c9b 100%);
+}
+.btnAjouter {
+    -fx-background-color				:linear-gradient(#f0ff35, #a9ff00),radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);
+    -fx-text-fill						: #242d35;
+}
+.btnModifier {
+    -fx-background-color				:linear-gradient(#f2f2f2, #d6d6d6),linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%),linear-gradient(#dddddd 0%, #f6f6f6 50%);
+    -fx-text-fill						: #242d35;
+}
+.btnSupprimer {
+    -fx-background-color				: linear-gradient(#ff5400, #be1d00);
+}
+.btnLogin {
+	-fx-background-color				: linear-gradient(to bottom, #add8e6, #7bb1d1);
+	-fx-padding							: 10px 100px;
+}
+.btnQuitter {
+	-fx-background-color				: linear-gradient(to bottom, #dddddd, #888888);
+	-fx-padding							: 10px 100px;
+}
+.btnLogin:hover{
+	-fx-opacity							: 0.5;
+	-fx-background-color				: #CECEF6;
+}
+/* ----------------------------------------------------------------------------------------------------------------- */
+/* Styles divers - classes */
+/* ----------------------------------------------------------------------------------------------------------------- */
+.zoneEnErreur{
+	-fx-border-color 					: #ee0312; 
+	-fx-border-width 					: 1px;
+}
+.cadreGridPane{
+	-fx-border-color 					: #757575; 
+	-fx-border-width 					: 2px;
+	-fx-background-color				: #BDBDBD;
+}
+.imageLogin {
+	-fx-background-color				: #EFFBFB;
+	-fx-effect							: innershadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+TextField{
+   -fx-font-size						: 14px;
+   -fx-font-family						: "Cambria";
+}
+.zoneObligatoire {
+   -fx-font-size						: 18px;
+   -fx-font-family						: "Cambria";
+   -fx-font-weight						: bold;
+   -fx-text-fill						: #ee0312; 	
+}
+.isDisabled {
+	-fx-opacity							: 1.0; 
+	-fx-text-fill						: black;
+}
+#bandeauTop{
+	-fx-background-color				: #005892;
+}

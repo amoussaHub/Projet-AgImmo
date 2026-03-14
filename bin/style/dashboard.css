@@ -1,0 +1,66 @@
+.root {
+     /**-fx-background-image: url("../images/image_fond.jpg");**/
+     -fx-background-repeat: no-repeat; 
+	 -fx-background-position: bottom center;
+}
+#bandeauTop{
+	-fx-background-color: #8A0808;
+}
+#lblAgent {
+   -fx-font-size: 14px;
+   -fx-font-family: "Arial Black";
+   -fx-fill: #818181;
+   -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 16, 0.0 , 0 , 2 );
+}
+#imageAgent{
+	-fx-background-radius: 50px;
+    -fx-border-radius: 50px;
+    -fx-border-width: 5px;
+    -fx-border-color: black;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+}
+#menuGeneral {
+	-fx-background-image: url("../images/agence.png");
+	-fx-background-color: #8A0808;
+	-fx-background-size: 160px 155px;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;		
+}
+#menuProprietaires, #menuLocations, #menuLocataires, #menuBail {
+	-fx-background-color: #8A0808;
+	-fx-background-size: 150px 135px;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;		
+}
+#menuProprietaires:hover, #menuLocations:hover, #menuLocataires:hover, #menuBail:hover {
+	-fx-background-color: #620404;
+	-fx-border-style: dashed;
+}
+#menuProprietaires {
+	-fx-background-image: url("../images/proprietaires.png");
+}
+#menuLocations {
+	-fx-background-image: url("../images/locations.png");
+}
+#menuLocataires {
+	-fx-background-image: url("../images/locataires.png");
+}
+#menuBail {
+	-fx-background-image: url("../images/bail.png");
+}
+.messages {
+   -fx-font-size: 16px;
+   -fx-font-family: "Arial Black";
+   -fx-text-fill: #B3AEAE;
+}
+.iconeMenus{
+	-fx-background-size: 10px 10px;	
+}
+.version{
+   -fx-font-size: 8px;
+   -fx-font-family: "Arial Black";
+   -fx-text-fill: #FFFFFF;
+}
+
+
+
