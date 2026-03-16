@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="650.0" prefWidth="800.0" stylesheets="@../../style/application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenusAdministrationController">
+   <top>
+      <VBox prefHeight="42.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lblTitre" alignment="CENTER" prefHeight="17.0" prefWidth="801.0" styleClass="label14B" text="Administration des tables de la base de données" />
+            <MenuBar>
+               <menus>
+                  <Menu mnemonicParsing="false" text="File">
+                     <items>
+                        <MenuItem fx:id="mnuClose" mnemonicParsing="false" onAction="#evtOnActionMnuClose" text="Quitter" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Tables">
+                     <items>
+                        <MenuItem fx:id="mnuCivility" mnemonicParsing="false" onAction="#evtOnActionMnuCivility" text="Civilités" />
+                        <MenuItem fx:id="mnuTypeAgent" mnemonicParsing="false" onAction="#evtOnActionMnuTypeAgent" text="Type d'agents" />
+                        <MenuItem fx:id="mnuInfoEntete" mnemonicParsing="false" onAction="#evtOnActionMnuInfoEntete" text="Entêtes info" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+         </children>
+      </VBox>
+   </top>
+</BorderPane>
