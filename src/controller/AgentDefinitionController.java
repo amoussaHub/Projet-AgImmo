@@ -34,6 +34,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -91,6 +92,7 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 	@FXML private PasswordField pwfAgentPwd;
 	@FXML private PasswordField pwfAgentPwdConfirme;
 	@FXML private Label lblAgentDossier;
+	@FXML private CheckBox chkUpdatePwd;
 
 	private Tooltip tooltipTelephone = new Tooltip("Le n° doit avoir le format suivant : XX-XX-XX-XX-XX");
 	private Tooltip tooltipEmail = new Tooltip("Le mail doit avoir le format suivant : XXXXXXX@YYYY.ZZZ");
@@ -146,6 +148,9 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 		txfAgentMobile.setTooltip(tooltipTelephone);
 		txfAgentEmail.setTooltip(tooltipEmail);
 		pwfAgentPwd.setTooltip(tooltipPwd);
+		
+		pwfAgentPwd.setDisable(true);
+		pwfAgentPwdConfirme.setDisable(true);
 
 
 		/** Rajout d'un évènement sur le bouton btnAgentImage pour afficher l'explorateur Windows **/
@@ -374,11 +379,6 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 
 
 
-
-
-
-
-
 		/** S'il y a une erreur, on l'affiche dans la textArea **/
 		if(!messageErreur.isEmpty()) {
 			DialogBox dialog = new DialogBox("Erreur de saisie", messageErreur, "", AlertType.ERROR, null);
@@ -420,6 +420,13 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 
 
 
+	}
+	
+	@FXML public void evtOnActionChkUpdatePwd() {
+		if (chkUpdatePwd.isSelected()) {
+			pwfAgentPwd.setDisable(false);
+			pwfAgentPwdConfirme.setDisable(false);
+		}
 	}
 
 

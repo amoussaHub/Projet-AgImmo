@@ -7,6 +7,7 @@ module Projet {
 		requires javafx.base;
 		requires javafx.web;
 		requires passay;
+		requires bcrypt;
 
 
 	    opens controller to javafx.graphics, javafx.fxml;

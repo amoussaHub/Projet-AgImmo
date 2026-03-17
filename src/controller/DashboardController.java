@@ -72,7 +72,7 @@ public class DashboardController {
 
 		String imageName = agent.getAgentImage();
 
-
+		
 		InputStream is = getClass().getResourceAsStream("/images/agents/" + imageName);
 		Image image = new Image(is);
 		imvAgent.setImage(image);

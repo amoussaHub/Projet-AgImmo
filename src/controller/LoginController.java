@@ -1,5 +1,6 @@
 package controller;
 
+import static batch.TraitementsBatch.traitementChiffrementDonneesPersonnelles;
 import static bdd.AgentBdd.selectAgentByLoginPwd;
 import static bdd.FenetresBdd.selectOneFenetre;
 import static utilities.UtilitiesFermeture.fenetreFermeture;
@@ -10,6 +11,7 @@ import static bdd.ConnexionsBdd.selectLastConnexion;
 import static bdd.ConnexionsBdd.insertConnexions;
 import static bdd.ConnexionsBdd.deleteConnexions;
 import static bdd.SessionsBdd.insertSessions;
+import static utilities.UtilitiesBlowFish.encrypt;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -18,7 +20,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
-
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import bdd.AgentBdd;
 import bdd.ConnexionsBdd;
 import javafx.animation.Animation;
@@ -48,6 +50,7 @@ import model.InfoDetail;
 import model.LoaderFXML;
 import model.Sessions;
 import resources.Cstes;
+//import sun.security.krb5.EncryptedData;
 import utilities.DialogBox;
 
 /** ***********************************************************************************************
@@ -90,6 +93,9 @@ public class LoginController {
 
 		txfLogin.textProperty().addListener((obs, oldValue, newValue) -> lblErreur.setVisible(false));
 		pwfPwd.textProperty().addListener((obs, oldValue, newValue) -> lblErreur.setVisible(false));
+
+		//Appel de la méthode traitement chiffrement données personnelles
+		traitementChiffrementDonneesPersonnelles();
 	}
 	/**
 	 * Méthode permettant de récupérer le stage initialisé par la fenêtre appelante 
@@ -137,11 +143,18 @@ public class LoginController {
 		/** Contrôle de l'existence de l'agent dans la base de données
 		 *  à partir de son login et de son mot de passe 
 		 */
-		agent = selectAgentByLoginPwd(txfLogin.getText(), pwfPwd.getText());
+		String motDePasse = pwfPwd.getText();
+		String login = encrypt(txfLogin.getText());
+
+		agent = selectAgentByLoginPwd(login);
+		System.out.println(agent);
+		BCrypt.Result resultat = BCrypt.verifyer().verify(motDePasse.toCharArray(),agent.getAgentPwd());
+		System.out.println(resultat);
 		nbrConnexions = selectNbreConnexions(uuid);
 
 		/** Si l'agent existe **/
-		if(agent != null) {
+		if(agent != null && !resultat.verified) { //problème lié au resultat.verified
+
 			/** Fermeture de la fenêtre de login **/
 			dialogStage.close();
 			/** Appel de la fenêtre tableau de bord **/
