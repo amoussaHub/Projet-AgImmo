@@ -1,5 +1,4 @@
 /module-info.class
-/controller/
-/utilities/
-/bdd/
 /resources/
+/utilities/
+/controller/
