@@ -138,11 +138,11 @@ public class CompanyDefinitionController extends GeneralDefinitionController {
 			messageErreur += "- Nom" + Cstes.CR;
 		}
 		/** controle de la zone obligatoire : telephone  **/
-		if (isTextFieldEmpty(txfCompanyTelephone) || validatePhoneNumber(txfCompanyTelephone)) {
+		if (isTextFieldEmpty(txfCompanyTelephone) || !validatePhoneNumber(txfCompanyTelephone)) {
 			messageErreur += "- Telephone (le format doit être : XX-XX-XX-XX-XX)";
 		}
 		/** controle de la zone obligatoire : email  **/
-		if (isTextFieldEmpty(txfCompanyEmail) || isEmailAdress(txfCompanyEmail)) {
+		if (isTextFieldEmpty(txfCompanyEmail) || !isEmailAdress(txfCompanyEmail)) {
 			messageErreur += "- Email (le format doit être : XXXXXXX@YYYY.ZZZ)";
 		}
 		/** contrôle de la date de création **/
@@ -155,12 +155,12 @@ public class CompanyDefinitionController extends GeneralDefinitionController {
 		} 
 		/** contrôle du SIRET **/
 		if (isTextFieldEmpty(txfCompanySiret) || !txfCompanySiret.getText().startsWith(txfCompanySiren.getText()) || txfCompanySiret.getText().length() < 14 || txfCompanySiret.getText().length() > 14 || !txfCompanySiret.getText().matches("^[0-9]+$")) {
-			messageErreur += "- Siret (Le n° siret doit commencer par le n° siren et faire 1' caractères de type numérique)";
-		} else {
+			messageErreur += "- Siret (Le n° siret doit commencer par le n° siren et faire 14 caractères de type numérique)";
+		} /*else {
 			if (controleSiret(txfCompanySiret.getText(), company.getCompanyIdt()) > 0) {
 				messageErreur += "- Siret : ce n° siret est déjà utilisé" + Cstes.CR;
 			}
-		}
+		}*/
 
 		/** *************************************************************************************************************
 		 *  controle des zones Address
@@ -176,6 +176,7 @@ public class CompanyDefinitionController extends GeneralDefinitionController {
 		if (cbxAddressTown.getValue() == null) {
 			messageErreur += "- Ville";
 		}
+		if (messageErreur == "Les zones marquées d’un * sont obligatoires :" + Cstes.CR) messageErreur = "";
 		/** S'il y a une erreur, on l'affiche dans un dialogbox **/
 		if(!messageErreur.isEmpty()) {
 			DialogBox dialogBox = new DialogBox("Erreur de saisie", "", messageErreur, AlertType.CONFIRMATION, null);
