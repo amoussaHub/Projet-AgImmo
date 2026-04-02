@@ -70,7 +70,7 @@ public class AddressBdd extends ConnexionBdd {
 		if(connexion!=null) {
 			/** Traitements SQL */
 			try {
-				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, addressIdt);
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, addressGenerateKey);
 				ResultSet resultSet   				= preparedStatement.executeQuery();
 				while (resultSet.next()) {
 					addressIdt = resultSet.getInt("addressIdt");

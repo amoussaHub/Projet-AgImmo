@@ -19,6 +19,7 @@ import static utilities.UtilitiesControls.validatePhoneNumber;
 import static utilities.UtilitiesPassay.generateKey;
 import static bdd.TownBdd.selectOneTown;
 import static bdd.CompanyBdd.controleSiret;
+import static bdd.LegalRegimeBdd.selectOneLegalRegime;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -139,27 +140,25 @@ public class CompanyDefinitionController extends GeneralDefinitionController {
 		}
 		/** controle de la zone obligatoire : telephone  **/
 		if (isTextFieldEmpty(txfCompanyTelephone) || !validatePhoneNumber(txfCompanyTelephone)) {
-			messageErreur += "- Telephone (le format doit être : XX-XX-XX-XX-XX)";
+			messageErreur += "- Telephone (le format doit être : XX-XX-XX-XX-XX)" + Cstes.CR;
 		}
 		/** controle de la zone obligatoire : email  **/
 		if (isTextFieldEmpty(txfCompanyEmail) || !isEmailAdress(txfCompanyEmail)) {
-			messageErreur += "- Email (le format doit être : XXXXXXX@YYYY.ZZZ)";
+			messageErreur += "- Email (le format doit être : XXXXXXX@YYYY.ZZZ)" + Cstes.CR;
 		}
 		/** contrôle de la date de création **/
 		if (codeAction.equals("create") && dapCompanyCreationDate.getValue() != LocalDate.now()) {
 			dapCompanyCreationDate.setValue(LocalDate.now());
 		}
 		/** contrôle du SIREN **/
-		if (isTextFieldEmpty(txfCompanySiren) || txfCompanySiren.getText().length() < 9 || txfCompanySiren.getText().length() > 9 || !txfCompanySiren.getText().matches("^[0-9]+$")){
+		if (isTextFieldEmpty(txfCompanySiren) || txfCompanySiren.getText().length() != 9 || !txfCompanySiren.getText().matches("^[0-9]+$")){
 			messageErreur += "- Siren (le n° siren doit faire 9 caractères de type numérique)" + Cstes.CR;
 		} 
 		/** contrôle du SIRET **/
-		if (isTextFieldEmpty(txfCompanySiret) || !txfCompanySiret.getText().startsWith(txfCompanySiren.getText()) || txfCompanySiret.getText().length() < 14 || txfCompanySiret.getText().length() > 14 || !txfCompanySiret.getText().matches("^[0-9]+$")) {
-			messageErreur += "- Siret (Le n° siret doit commencer par le n° siren et faire 14 caractères de type numérique)";
-		} /*else {
-			if (controleSiret(txfCompanySiret.getText(), company.getCompanyIdt()) > 0) {
-				messageErreur += "- Siret : ce n° siret est déjà utilisé" + Cstes.CR;
-			}
+		if (isTextFieldEmpty(txfCompanySiret) || !txfCompanySiret.getText().startsWith(txfCompanySiren.getText()) ||  txfCompanySiret.getText().length() != 14 || !txfCompanySiret.getText().matches("^[0-9]+$")) {
+			messageErreur += "- Siret (Le n° siret commence par le n° siren, il fait 14 caractères de type numérique en tout)" + Cstes.CR;
+		} /*else if (controleSiret(txfCompanySiret.getText(), company.getCompanyIdt()) > 0) {
+			messageErreur += "- Siret : ce n° siret est déjà utilisé" + Cstes.CR;
 		}*/
 
 		/** *************************************************************************************************************
@@ -176,7 +175,7 @@ public class CompanyDefinitionController extends GeneralDefinitionController {
 		if (cbxAddressTown.getValue() == null) {
 			messageErreur += "- Ville";
 		}
-		if (messageErreur == "Les zones marquées d’un * sont obligatoires :" + Cstes.CR) messageErreur = "";
+		if (messageErreur.equals("Les zones marquées d’un * sont obligatoires :" + Cstes.CR)) messageErreur = "";
 		/** S'il y a une erreur, on l'affiche dans un dialogbox **/
 		if(!messageErreur.isEmpty()) {
 			DialogBox dialogBox = new DialogBox("Erreur de saisie", "", messageErreur, AlertType.CONFIRMATION, null);
@@ -244,13 +243,15 @@ public class CompanyDefinitionController extends GeneralDefinitionController {
 				insertAddress(address);
 			} else {
 				int townIdt = cbxAddressTown.getValue().getTownIdt();
+				address = selectOneAdresse(company.getCompanyAddressIdt());
 				
 				address.setAddressDeliveryPoint(txfAddressDeliveryPoint.getText());
 				address.setAddressNumber(txfAddressNumber.getText());
 				address.setAddressPortLabel(txfAddressPortLabel.getText());
 				address.setAddressNext(txfAddressNext.getText());
 				address.setAddressTownIdt(townIdt);
-
+				address.setAddressGenerationKey(key);
+				
 				updateAddress(address);
 			}
 			/** *************************************************************************************************************
@@ -272,12 +273,14 @@ public class CompanyDefinitionController extends GeneralDefinitionController {
 				
 				insertCompany(company);
 			} else {
+				addressIdt = selectOneAdresseByKey(key);
+				company.setCompanyAddressIdt(addressIdt);
 				company.setCompanyName(txfCompanyName.getText());
-				company.setCompanyAddressIdt(company.getAdress().getAddressIdt());
 				company.setCompanyTelephone(txfCompanyTelephone.getText());
 				company.setCompanyEmail(txfCompanyEmail.getText());
 				company.setCompanyWebSite(txfCompanyWebSite.getText());
 				company.setCompanyLegalRegime(cbxCompanyLegalRegime.getValue().getLegalRegimeIdt());
+				company.setCompanyCreationDate(dapCompanyCreationDate.getValue());
 				company.setCompanySiren(txfCompanySiren.getText());
 				company.setCompanySiret(txfCompanySiret.getText());
 				company.setCompanyAdminSeat(chkCompanyAdminSeat.isSelected());
@@ -285,6 +288,9 @@ public class CompanyDefinitionController extends GeneralDefinitionController {
 				
 				updateCompany(company);
 			}
+			validerClicked = true;
+			
+			this.dialogStage.close();
 		}
 	}
 	/**
@@ -317,7 +323,8 @@ public class CompanyDefinitionController extends GeneralDefinitionController {
 		cbxCompanyLegalRegime.setValue(company.getLegalRegime());
 		dapCompanyCreationDate.setValue(company.getCompanyCreationDate());
 		txfCompanySiren.setText(company.getCompanySiren());
-		txfCompanySiret.setText(company.getCompanySiret());
+		txfCompanySiret.setText(company.getCompanySiren());
+		txfCompanySiret.appendText(company.getCompanySiret());
 		chkCompanyAdminSeat.setSelected(companyAdminSeat);
 		txfCompanyMaps.setText(company.getCompanyMaps());
 		txfAddressDeliveryPoint.setText(address.getAddressDeliveryPoint());

@@ -136,7 +136,7 @@ public class CompanyBdd extends ConnexionBdd {
 			/** Traitements SQL */
 			try {
 				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, company.getCompanyName(), company.getCompanyAddressIdt(), company.getCompanyTelephone(), company.getCompanyEmail(), company.getCompanyWebSite(), company.getCompanyLegalRegime(),
-																			company.getCompanyCreationDate(), company.getCompanySiren(), company.getCompanySiret(), selectOneCompanyAdminSeat(), company.getCompanyMaps());
+																			company.getCompanyCreationDate(), company.getCompanySiren(), company.getCompanySiret(), selectOneCompanyAdminSeat().getCompanyIdt(), company.getCompanyMaps());
 				nbreEnreg							= preparedStatement.executeUpdate();
 			} catch (SQLException e) {
 				/**
@@ -159,7 +159,7 @@ public class CompanyBdd extends ConnexionBdd {
 		/** Initialisation des variables **/
 		int nbreEnreg = 0;
 		/** Initialisation de la requête **/
-		String SQL		 = "UPDATE Company SET companyName = ?, companyAddressIdt = ?, companyTelephone = ?, companyEmail = ?, companyWebSite = ?, companyLegalRegime = ?, companyCreationDate = ?, companySiren = ?, companySiret = ?, companyAdminSeat = ?, companyMaps = ?"
+		String SQL		 = "UPDATE Company SET companyName = ?, companyAddressIdt = ?, companyTelephone = ?, companyEmail = ?, companyWebSite = ?, companyLegalRegime = ?, companyCreationDate = ?, companySiren = ?, companySiret = ?, companyAdminSeat = ?, companyMaps = ? "
 						 + "WHERE companyIdt = ?";
 		/** Connexion à la base de données **/
 		Connection connexion = trtConnexionBdd();
@@ -167,7 +167,7 @@ public class CompanyBdd extends ConnexionBdd {
 			/** Traitements SQL */
 			try {
 				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, company.getCompanyName(), company.getCompanyAddressIdt(), company.getCompanyTelephone(), company.getCompanyEmail(), company.getCompanyWebSite(), company.getCompanyLegalRegime(),
-																			company.getCompanyCreationDate(), company.getCompanySiren(), company.getCompanySiret(), selectOneCompanyAdminSeat(), company.getCompanyMaps(), company.getCompanyIdt());
+																			company.getCompanyCreationDate(), company.getCompanySiren(), company.getCompanySiret(), selectOneCompanyAdminSeat().getCompanyIdt(), company.getCompanyMaps(), company.getCompanyIdt());
 				nbreEnreg							= preparedStatement.executeUpdate();
 			} catch (SQLException e) {
 				/**

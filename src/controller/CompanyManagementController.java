@@ -132,7 +132,7 @@ public class CompanyManagementController extends GeneralManagementController {
 				controller.setAction("create");
 				primaryStage.show();
 				trtAffichage();
-			}   
+			}
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -182,5 +182,9 @@ public class CompanyManagementController extends GeneralManagementController {
 			btnAjouter.setDisable(true);
 			btnSupprimer.setDisable(true);
 		}
+	}
+	
+	public void controlValiderClicked(boolean clicked) {
+		if (clicked == true) trtAffichage();
 	}
 }
