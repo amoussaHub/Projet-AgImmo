@@ -108,8 +108,10 @@ public class CompanyManagementController extends GeneralManagementController {
 				controller.setCompany(tbvDonnees.getSelectionModel().getSelectedItem());
 				controller.setAction("update");
 				controller.setDialogStage(primaryStage);
-				primaryStage.show();
-				trtAffichage();
+				primaryStage.showAndWait();
+				if (controller.isValiderClicked()) {
+					trtAffichage();
+				}
 			}   
 		} catch (Exception e){
 			e.printStackTrace();
@@ -130,8 +132,10 @@ public class CompanyManagementController extends GeneralManagementController {
 				CompanyDefinitionController controller = loaderFxml.getLoader().getController();
 				controller.setDialogStage(primaryStage);
 				controller.setAction("create");
-				primaryStage.show();
-				trtAffichage();
+				primaryStage.showAndWait();
+				if (controller.isValiderClicked()) {
+					trtAffichage();
+				}
 			}
 		} catch (Exception e){
 			e.printStackTrace();
@@ -171,20 +175,21 @@ public class CompanyManagementController extends GeneralManagementController {
 	public void setAgent(Agent agent) {
 		this.agent = agent;
 		
-		if (agent.getAgentType() != 1 && agent.getAgentType() != 3 && agent.getAgentType() == 4) {
+		if (agent.getAgentType() != 1 && agent.getAgentType() != 3 && agent.getAgentType() != 4) {
 			btnAjouter.setDisable(true);
 			btnSupprimer.setDisable(true);
 			btnModifier.setDisable(true);
 		} else if (agent.getAgentType() == 3) {
 			btnSupprimer.setDisable(true);
-			btnModifier.setDisable(false);
+			//btnModifier.setDisable(false);
 		} else if (agent.getAgentType() == 1 ){
 			btnAjouter.setDisable(true);
 			btnSupprimer.setDisable(true);
-		}
+		} 
 	}
 	
 	public void controlValiderClicked(boolean clicked) {
 		if (clicked == true) trtAffichage();
 	}
+	
 }

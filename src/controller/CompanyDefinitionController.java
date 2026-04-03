@@ -289,7 +289,6 @@ public class CompanyDefinitionController extends GeneralDefinitionController {
 				updateCompany(company);
 			}
 			validerClicked = true;
-			
 			this.dialogStage.close();
 		}
 	}
@@ -323,8 +322,8 @@ public class CompanyDefinitionController extends GeneralDefinitionController {
 		cbxCompanyLegalRegime.setValue(company.getLegalRegime());
 		dapCompanyCreationDate.setValue(company.getCompanyCreationDate());
 		txfCompanySiren.setText(company.getCompanySiren());
-		txfCompanySiret.setText(company.getCompanySiren());
-		txfCompanySiret.appendText(company.getCompanySiret());
+		txfCompanySiret.setText(company.getCompanySiret());
+		//txfCompanySiret.appendText(company.getCompanySiret());
 		chkCompanyAdminSeat.setSelected(companyAdminSeat);
 		txfCompanyMaps.setText(company.getCompanyMaps());
 		txfAddressDeliveryPoint.setText(address.getAddressDeliveryPoint());
