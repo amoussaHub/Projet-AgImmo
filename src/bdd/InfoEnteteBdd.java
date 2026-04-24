@@ -97,6 +97,40 @@ public class InfoEnteteBdd extends ConnexionBdd {
 		}
 		return infoEntete;			
 	}
+	/** *********************************************************************************
+	 * Méthode permettant de récupérer une entête à partir d'une clé
+	 * **********************************************************************************
+	 * @param 	infoEnteteIdt 	[int]			: identifiant de l'entête
+	 * @return					[InfoEntete]	: instance créée
+	 */
+	public static InfoEntete selectOneInfoEnteteByKey(String infoEnteteKey){
+		/** Déclaration des variables **/
+		InfoEntete infoEntete						= null;	
+		/** Initialisation de la requête **/
+		String SQL		= "SELECT * FROM InfoEntete WHERE infoEnteteKey = ?";
+		/** Connexion à la base de données **/
+		Connection connexion = trtConnexionBdd();
+		/** Traitements SQL */
+		if(connexion!=null) {
+			/** Traitements SQL */
+			try {
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, infoEnteteKey);
+				ResultSet resultSet   				= preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					infoEntete = map(resultSet);
+				}	
+			} catch (SQLException e) {
+				/**
+				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
+				 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
+				 */
+				class Dummy {};
+				String methodeName 	= Dummy.class.getEnclosingMethod().getName();
+				gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+			}		
+		}
+		return infoEntete;			
+	}
 	/**
 	 * Méthode permettant d'insérer une entête
 	 * @param infoEntete	[InfoEntete]	: InfoEntete à insérer

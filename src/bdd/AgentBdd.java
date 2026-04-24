@@ -5,6 +5,9 @@ import static bdd.TypeAgentBdd.selectOneTypeAgent;
 import static utilities.GestionExceptions.gestionDesExceptionsMap;
 import static utilities.GestionExceptions.gestionDesExceptionsStates;
 import static utilities.UtilitiesJdbc.initialisationRequete;
+import static utilities.UtilitiesBlowFish.encrypt;
+import static utilities.UtilitiesBlowFish.decrypt;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -40,19 +43,19 @@ public class AgentBdd extends ConnexionBdd {
 	 * @param 	pwd		[String]	: mot de passe
 	 * @return			[Agent]		: instance Agent créée
 	 */
-	public static Agent selectAgentByLoginPwd(String login, String pwd) {
+	public static Agent selectAgentByLogin(String login) {
 		/** Déclaration des variables **/
 		Agent agent 	= null;
 		/** Initialisation de la requête **/
 		//String SQL		= "SELECT * FROM Agent WHERE agentLogin = '" + login + "' AND agentPwd = '" + pwd + "'";
-		String SQL		= "SELECT * FROM Agent WHERE agentLogin = ? AND agentPwd = ?"; 
+		String SQL		= "SELECT * FROM Agent WHERE agentLogin = ?"; 
 		/** Connexion à la base de données **/
 		Connection connexion = trtConnexionBdd();
 		/** Traitements SQL avec gestion des Exceptions */
 		if(connexion!=null) {
 			/** Traitements SQL */
 			try {
-				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, login, pwd);
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, encrypt(login));
 				ResultSet resultSet   				= preparedStatement.executeQuery();
 				while (resultSet.next()) {
 					agent = map(resultSet);
@@ -121,9 +124,9 @@ public class AgentBdd extends ConnexionBdd {
 		if(connexion!=null) {
 			/** Traitements SQL */
 			try {
-				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, agent.getPersonName(), agent.getPersonFirstName(), agent.getPersonMobile(),
-													agent.getPersonPhone(), agent.getPersonEmail(), agent.getPersonCivility(), agent.getAgentType(), agent.getAgentLogin(),
-													agent.getAgentPwd(), agent.getAgentImage(), agent.getPersonIdt());
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, encrypt(agent.getPersonName()), encrypt(agent.getPersonFirstName()), encrypt(agent.getPersonMobile()),
+													encrypt(agent.getPersonPhone()), encrypt(agent.getPersonEmail()), agent.getPersonCivility(), agent.getAgentType(), encrypt(agent.getAgentLogin()),
+													agent.getAgentPwd(), encrypt(agent.getAgentImage()), agent.getPersonIdt());
 				nbreEnreg							= preparedStatement.executeUpdate();
 			} catch (SQLException e) {
 				/**
@@ -151,18 +154,18 @@ public class AgentBdd extends ConnexionBdd {
 			/** Initialisation des variables **/
 			
 			int personIdt           = resultset.getInt("agentIdt");
-	        String personName       = resultset.getString("agentName");
-	        String personFirstName  = resultset.getString("agentFirstName");
-	        String personMobile     = resultset.getString("agentMobile");
-	        String personPhone      = resultset.getString("agentPhone");
-	        String personEmail      = resultset.getString("agentEmail");
+	        String personName       = decrypt(resultset.getString("agentName"));
+	        String personFirstName  = decrypt(resultset.getString("agentFirstName"));
+	        String personMobile     = decrypt(resultset.getString("agentMobile"));
+	        String personPhone      = decrypt(resultset.getString("agentPhone"));
+	        String personEmail      = decrypt(resultset.getString("agentEmail"));
 	        int personCivility      = resultset.getInt("agentCivility");  	
 
 
 	        int agentType           = resultset.getInt("agentType");
-	        String agentLogin       = resultset.getString("agentLogin");
+	        String agentLogin       = decrypt(resultset.getString("agentLogin"));
 	        String agentPwd         = resultset.getString("agentPwd");
-	        String agentImage       = resultset.getString("agentImage");
+	        String agentImage       = decrypt(resultset.getString("agentImage"));
 			
 			/** Instanciation d'un nouvel objet */
 	        
@@ -174,7 +177,7 @@ public class AgentBdd extends ConnexionBdd {
 	        agent = new Agent(
 	                personIdt, personName, personFirstName, personMobile, personPhone, personEmail,
 	                personCivility, civility, agentType, typeAgent, agentLogin, agentPwd, agentImage
-	            );
+	        );
 	
 		} catch (SQLException e) {
 			/**

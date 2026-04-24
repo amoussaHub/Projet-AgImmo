@@ -34,6 +34,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -49,6 +50,7 @@ import model.InfoDetail;
 import model.TypeAgent;
 import resources.Cstes;
 import utilities.DialogBox;
+import at.favre.lib.crypto.bcrypt.BCrypt;
 
 /** ***********************************************************************************************
  * CLASSE : AgentDefinitionController
@@ -91,6 +93,7 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 	@FXML private PasswordField pwfAgentPwd;
 	@FXML private PasswordField pwfAgentPwdConfirme;
 	@FXML private Label lblAgentDossier;
+	@FXML private CheckBox chkUpdatePwd;
 
 	private Tooltip tooltipTelephone = new Tooltip("Le n° doit avoir le format suivant : XX-XX-XX-XX-XX");
 	private Tooltip tooltipEmail = new Tooltip("Le mail doit avoir le format suivant : XXXXXXX@YYYY.ZZZ");
@@ -190,6 +193,9 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 		});
 
 		/** Initialisation des combobox **/
+		
+		pwfAgentPwd.setDisable(true);
+		pwfAgentPwdConfirme.setDisable(true);
 	}
 	/**
 	 * Méthode permettant de recevoir un agent en paramètre de la fenêtre appelante
@@ -214,8 +220,8 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 		}
 
 		txfAgentLogin.setText(agent.getAgentLogin());
-		pwfAgentPwd.setText(agent.getAgentPwd());
-		pwfAgentPwdConfirme.setText("");
+		//pwfAgentPwd.setText(agent.getAgentPwd());
+		//pwfAgentPwdConfirme.setText("");
 		LblAgentImage.setText(agent.getAgentImage());
 	}
 	/**
@@ -363,20 +369,18 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 		String pwdConf = pwfAgentPwdConfirme.getText();
 		String ancienPwd = agent.getAgentPwd();
 		String regexPwd = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\W).{8,20}$";
+		String pwdHache = null;
 
 		// Si le mot de passe a été modifié
 		if (!pwd.equals(ancienPwd)) {
-			if (!pwd.matches(regexPwd)) 
+			if (!pwd.matches(regexPwd)) {
 				messageErreur += "Mot de passe invalide (1 maj, 1 min, 1 chiffre, 1 spécial, 8-20 caractères).\n";
-			if (!pwd.equals(pwdConf)) 
+			} else if (!pwd.equals(pwdConf)) { 
 				messageErreur += "Les mots de passe ne correspondent pas.\n";
+			} else {
+				pwdHache = BCrypt.withDefaults().hashToString(12,pwd.toCharArray());
+			}
 		}
-
-
-
-
-
-
 
 
 		/** S'il y a une erreur, on l'affiche dans la textArea **/
@@ -404,7 +408,7 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 				agent.setPersonEmail(txfAgentEmail.getText());
 				agent.setCivility(cbxCivilite.getSelectionModel().getSelectedItem());
 				agent.setTypeAgent(cbxTypeAgent.getSelectionModel().getSelectedItem());
-				agent.setAgentPwd(pwfAgentPwd.getText());
+				agent.setAgentPwd(pwdHache);
 				agent.setAgentImage(LblAgentImage.getText());
 
 
@@ -416,10 +420,16 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 			/** Sortie de la fenêtre **/
 			dialogStage.close();
 		}
-
-
-
-
+	}
+	
+	@FXML public void evtOnActionChkUpdatePwd() {
+		if(chkUpdatePwd.isSelected()){
+			pwfAgentPwd.setDisable(false);
+			pwfAgentPwdConfirme.setDisable(false);
+		} else {
+			pwfAgentPwd.setDisable(true);
+			pwfAgentPwdConfirme.setDisable(true);
+		}
 	}
 
 

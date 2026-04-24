@@ -1,6 +1,6 @@
 package controller;
 
-import static bdd.AgentBdd.selectAgentByLoginPwd;
+import static bdd.AgentBdd.selectAgentByLogin;
 import static bdd.FenetresBdd.selectOneFenetre;
 import static utilities.UtilitiesFermeture.fenetreFermeture;
 import static bdd.InfoDetailBdd.selectOneInfoDetailDescription;
@@ -10,6 +10,7 @@ import static bdd.ConnexionsBdd.selectLastConnexion;
 import static bdd.ConnexionsBdd.insertConnexions;
 import static bdd.ConnexionsBdd.deleteConnexions;
 import static bdd.SessionsBdd.insertSessions;
+import static batch.TraitementsBatch.traitementChiffrementDonneesPersonnelles;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -49,6 +50,7 @@ import model.LoaderFXML;
 import model.Sessions;
 import resources.Cstes;
 import utilities.DialogBox;
+import at.favre.lib.crypto.bcrypt.BCrypt;
 
 /** ***********************************************************************************************
  * CLASSE : LoginController
@@ -90,6 +92,8 @@ public class LoginController {
 
 		txfLogin.textProperty().addListener((obs, oldValue, newValue) -> lblErreur.setVisible(false));
 		pwfPwd.textProperty().addListener((obs, oldValue, newValue) -> lblErreur.setVisible(false));
+
+		traitementChiffrementDonneesPersonnelles();
 	}
 	/**
 	 * Méthode permettant de récupérer le stage initialisé par la fenêtre appelante 
@@ -137,90 +141,96 @@ public class LoginController {
 		/** Contrôle de l'existence de l'agent dans la base de données
 		 *  à partir de son login et de son mot de passe 
 		 */
-		agent = selectAgentByLoginPwd(txfLogin.getText(), pwfPwd.getText());
+		agent = selectAgentByLogin(txfLogin.getText());
 		nbrConnexions = selectNbreConnexions(uuid);
+		String motDePasse = pwfPwd.getText();
+
 
 		/** Si l'agent existe **/
 		if(agent != null) {
-			/** Fermeture de la fenêtre de login **/
-			dialogStage.close();
-			/** Appel de la fenêtre tableau de bord **/
-			try {
-				Stage primaryStage 					= new Stage();
-				Fenetres fenetre	 				= selectOneFenetre(Cstes.TABLEAUDEBORD);
-				if(fenetre!=null) {
-					LoaderFXML loaderFxml 			= new LoaderFXML(fenetre);
-					primaryStage 	  				= loaderFxml.createLoaderBorderPane();
-					DashboardController controler 	= loaderFxml.getLoader().getController();
-					controler.setDialogStage(primaryStage);
-					controler.setAgent(agent);
+			BCrypt.Result resultat = BCrypt.verifyer().verify(motDePasse.toCharArray(), agent.getAgentPwd());
 
-					/** Rajout d'un évènement sur la fenêtre du tableau de bord interdisant de quitter l'appliaction 
-					 *  en cliquant sur la croix de la fenêtre Windows.
-					 */
-					fenetreFermeture(primaryStage);
-					deleteConnexions(uuid);
+			if(resultat.verified) {
+				/** Fermeture de la fenêtre de login **/
+				dialogStage.close();
+				/** Appel de la fenêtre tableau de bord **/
+				try {
+					Stage primaryStage 					= new Stage();
+					Fenetres fenetre	 				= selectOneFenetre(Cstes.TABLEAUDEBORD);
+					if(fenetre!=null) {
+						LoaderFXML loaderFxml 			= new LoaderFXML(fenetre);
+						primaryStage 	  				= loaderFxml.createLoaderBorderPane();
+						DashboardController controler 	= loaderFxml.getLoader().getController();
+						controler.setDialogStage(primaryStage);
+						controler.setAgent(agent);
 
-					Sessions session = new Sessions(0, agent.getPersonIdt(), uuid, LocalDate.now(), LocalTime.now(), LocalDate.now(), LocalTime.now(), agent);
-					insertSessions(session);
+						/** Rajout d'un évènement sur la fenêtre du tableau de bord interdisant de quitter l'appliaction 
+						 *  en cliquant sur la croix de la fenêtre Windows.
+						 */
+						fenetreFermeture(primaryStage);
+						deleteConnexions(uuid);
 
-					primaryStage.show();
-				}		
-			} catch(Exception e) {
-				e.printStackTrace();
+						Sessions session = new Sessions(0, agent.getPersonIdt(), uuid, LocalDate.now(), LocalTime.now(), LocalDate.now(), LocalTime.now(), agent);
+						insertSessions(session);
+
+						primaryStage.show();
+					}		
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+				return;
 			}
-		} else {
-			/** Affichage du message d'erreur **/
-			txfLogin.clear();      
-			pwfPwd.clear();         
-			lblErreur.setVisible(true);
-			txfLogin.requestFocus();
-			insertConnexions(uuid);
+		}
+		/** Affichage du message d'erreur **/
+		txfLogin.clear();      
+		pwfPwd.clear();         
+		lblErreur.setVisible(true);
+		txfLogin.requestFocus();
+		insertConnexions(uuid);
 
-			/** Gestion du dépassement **/
-			if (nbrConnexions >= nbreErreursConnexions.getInfoDetailValueInt()) {
-				lastConnexion = selectLastConnexion(uuid);
-				//lblDepassement.setVisible(true);
-				if (lastConnexion != null) {
-					LocalDateTime dateTimeLastConnexion = LocalDateTime.of(lastConnexion.getConnexionsDate(), lastConnexion.getConnexionsTime());
-					LocalDateTime dateTimeActuel = LocalDateTime.now();
-					long duree = ChronoUnit.SECONDS.between(dateTimeLastConnexion, dateTimeActuel); 
-					if (duree < dureeBlqLogin.getInfoDetailValueInt()) {
-						btnLogin.setDisable(true);
-						btnQuitter.setDisable(true);
-						/** Initialisation d'un timer avec un pas de 1 seconde **/
-						Timeline timeline = new Timeline();
-						timeline.getKeyFrames().add(
+		/** Gestion du dépassement **/
+		if (nbrConnexions >= nbreErreursConnexions.getInfoDetailValueInt()) {
+			lastConnexion = selectLastConnexion(uuid);
+			//lblDepassement.setVisible(true);
+			if (lastConnexion != null) {
+				LocalDateTime dateTimeLastConnexion = LocalDateTime.of(lastConnexion.getConnexionsDate(), lastConnexion.getConnexionsTime());
+				LocalDateTime dateTimeActuel = LocalDateTime.now();
+				long duree = ChronoUnit.SECONDS.between(dateTimeLastConnexion, dateTimeActuel); 
+				if (duree < dureeBlqLogin.getInfoDetailValueInt()) {
+					btnLogin.setDisable(true);
+					btnQuitter.setDisable(true);
+					/** Initialisation d'un timer avec un pas de 1 seconde **/
+					Timeline timeline = new Timeline();
+					timeline.getKeyFrames().add(
 
-								new KeyFrame(Duration.seconds(1),
+							new KeyFrame(Duration.seconds(1),
 
-										new EventHandler<ActionEvent>() {
-									@Override
-									public void handle(ActionEvent event) {
-										countdownStarter--;
-										lblDepassement.setText("Le compte est bloqué pendant encore " +
+									new EventHandler<ActionEvent>() {
+								@Override
+								public void handle(ActionEvent event) {
+									countdownStarter--;
+									lblDepassement.setText("Le compte est bloqué pendant encore " +
 
 		        		countdownStarter + " seconde(s)");
 
-										if(countdownStarter <= 0) {
-											btnLogin.setDisable(false);
-											btnQuitter.setDisable(false);
-											//lblDepassement.setVisible(true);
-											lblDepassement.setText("Dépassement de tentatives");
-											lblDepassement.setVisible(false);
-											lblErreur.setVisible(false);
-											timeline.stop();
-										}
+									if(countdownStarter <= 0) {
+										btnLogin.setDisable(false);
+										btnQuitter.setDisable(false);
+										//lblDepassement.setVisible(true);
+										lblDepassement.setText("Dépassement de tentatives");
+										lblDepassement.setVisible(false);
+										lblErreur.setVisible(false);
+										timeline.stop();
 									}
-								}));
+								}
+							}));
 
-						timeline.setCycleCount(Animation.INDEFINITE);
-						timeline.play();
-					} else {
-						insertConnexions(uuid);
-					}
-				}	
-			}
+					timeline.setCycleCount(Animation.INDEFINITE);
+					timeline.play();
+				} else {
+					insertConnexions(uuid);
+				}
+			}	
 		}		
 	}
 }
