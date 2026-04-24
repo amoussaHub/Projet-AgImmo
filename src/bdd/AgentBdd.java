@@ -4,8 +4,10 @@ import static bdd.CivilityBdd.selectOneCivility;
 import static bdd.TypeAgentBdd.selectOneTypeAgent;
 import static utilities.GestionExceptions.gestionDesExceptionsMap;
 import static utilities.GestionExceptions.gestionDesExceptionsStates;
+import static utilities.UtilitiesJdbc.initialisationRequete;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -42,24 +44,28 @@ public class AgentBdd extends ConnexionBdd {
 		/** Déclaration des variables **/
 		Agent agent 	= null;
 		/** Initialisation de la requête **/
-		String SQL		 = "SELECT * FROM Agent WHERE agentLogin = '" + login + "' AND agentPwd = '" + pwd + "'";
+		//String SQL		= "SELECT * FROM Agent WHERE agentLogin = '" + login + "' AND agentPwd = '" + pwd + "'";
+		String SQL		= "SELECT * FROM Agent WHERE agentLogin = ? AND agentPwd = ?"; 
 		/** Connexion à la base de données **/
 		Connection connexion = trtConnexionBdd();
 		/** Traitements SQL avec gestion des Exceptions */
-		try {
-			Statement statement  = connexion.createStatement();
-			ResultSet resultSet  = statement.executeQuery(SQL);
-			while (resultSet.next()) {
-				agent = map(resultSet);
-			}	
-		} catch (SQLException e) {
-			/**
-			 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
-			 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
-			 */
-			class Dummy {};
-			String methodeName 	= Dummy.class.getEnclosingMethod().getName();
-			gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+		if(connexion!=null) {
+			/** Traitements SQL */
+			try {
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, login, pwd);
+				ResultSet resultSet   				= preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					agent = map(resultSet);
+				}	
+			} catch (SQLException e) {
+				/**
+				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
+				 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
+				 */
+				class Dummy {};
+				String methodeName 	= Dummy.class.getEnclosingMethod().getName();
+				gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+			}		
 		}
 		return agent;		
 	}
@@ -73,24 +79,27 @@ public class AgentBdd extends ConnexionBdd {
 		/** Déclaration des variables **/
 		Agent agent 	= null;
 		/** Initialisation de la requête **/
-		String SQL		= "SELECT * FROM Agent WHERE agentIdt = " + agentIdt;
+		String SQL		= "SELECT * FROM Agent WHERE agentIdt = ?";
 		/** Connexion à la base de données **/
 		Connection connexion = trtConnexionBdd();
 		/** Traitements SQL */
-		try {
-			Statement statement   = connexion.createStatement();
-			ResultSet resultSet   = statement.executeQuery(SQL);
-			while (resultSet.next()) {
-				agent = map(resultSet);
-			}	
-		} catch (SQLException e) {
-			/**
-			 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
-			 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
-			 */
-			class Dummy {};
-			String methodeName 	= Dummy.class.getEnclosingMethod().getName();
-			gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+		if(connexion!=null) {
+			/** Traitements SQL */
+			try {
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, agentIdt);
+				ResultSet resultSet   				= preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					agent = map(resultSet);
+				}	
+			} catch (SQLException e) {
+				/**
+				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
+				 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
+				 */
+				class Dummy {};
+				String methodeName 	= Dummy.class.getEnclosingMethod().getName();
+				gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+			}		
 		}
 		return agent;		
 	}	
@@ -103,32 +112,28 @@ public class AgentBdd extends ConnexionBdd {
 	public static int updateAgent(Agent agent){
 		/** Déclaration des variables **/
 		int nbreEnreg 	= 0;
-		/** Initialisation de la requête **/
-		String SQL		= "UPDATE Agent SET agentName = '" + agent.getPersonName() + "', "
-				+ "    agentFirstName = '" + agent.getPersonFirstName() + "', "
-				+ "    agentMobile = '" + agent.getPersonMobile() + "', "
-				+ "    agentPhone = '" + agent.getPersonPhone() + "', "
-				+ "    agentEmail = '" + agent.getPersonEmail() + "', "
-				+ "    agentCivility = " + agent.getPersonCivility() + ", "
-				+ "    agentType = " + agent.getAgentType() + ", "
-				+ "    agentLogin = '" + agent.getAgentLogin() + "', "
-				+ "    agentPwd = '" + agent.getAgentPwd() + "', "
-				+ "    agentImage = '" + agent.getAgentImage() + "' "
-				+ "    WHERE agentIdt = " + agent.getPersonIdt();
+		/** Initialisation de la requête **/		
+		String SQL 	= "UPDATE Agent SET agentName = ?, agentFirstName = ?, agentMobile = ?, agentPhone = ?, agentEmail = ?, agentCivility = ?,"
+					+ "agentType = ?, agentLogin = ?, agentPwd = ?, agentImage = ? WHERE agentIdt = ?";
 		/** Connexion à la base de données **/
 		Connection connexion = trtConnexionBdd();
 		/** Traitements SQL */
-		try {
-			Statement statement  = connexion.createStatement();
-			nbreEnreg 			 = statement.executeUpdate(SQL);
-		} catch (SQLException e) {
-			/**
-			 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
-			 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
-			 */
-			class Dummy {};
-			String methodeName 	= Dummy.class.getEnclosingMethod().getName();
-			gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+		if(connexion!=null) {
+			/** Traitements SQL */
+			try {
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, agent.getPersonName(), agent.getPersonFirstName(), agent.getPersonMobile(),
+													agent.getPersonPhone(), agent.getPersonEmail(), agent.getPersonCivility(), agent.getAgentType(), agent.getAgentLogin(),
+													agent.getAgentPwd(), agent.getAgentImage(), agent.getPersonIdt());
+				nbreEnreg							= preparedStatement.executeUpdate();
+			} catch (SQLException e) {
+				/**
+				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
+				 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
+				 */
+				class Dummy {};
+				String methodeName 	= Dummy.class.getEnclosingMethod().getName();
+				gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+			}	
 		}
 		return nbreEnreg;		
 	}		

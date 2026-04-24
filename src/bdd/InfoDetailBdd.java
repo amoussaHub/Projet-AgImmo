@@ -43,25 +43,28 @@ public class InfoDetailBdd extends ConnexionBdd {
 		ObservableList<InfoDetail> listeDonnees = FXCollections.observableArrayList();
 		InfoDetail infoDetail 				  	= null;
 		/** Initialisation de la requête **/
-		String SQL		= "SELECT * from InfoDetail WHERE infoEnteteIdt =" + key;
+		String SQL		= "SELECT * from InfoDetail WHERE infoEnteteIdt = ?";
 		/** Connexion à la base de données **/
 		Connection connexion = trtConnexionBdd();
 		/** Traitements SQL */
-		try {
-			Statement statement  = connexion.createStatement();
-			ResultSet resultSet  = statement.executeQuery(SQL);
-			while (resultSet.next()) {
-				infoDetail = map(resultSet);
-				if(infoDetail!=null) listeDonnees.add(infoDetail);
-			}	
-		} catch (SQLException e) {
-			/**
-			 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
-			 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
-			 */
-			class Dummy {};
-			String methodeName 	= Dummy.class.getEnclosingMethod().getName();
-			gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+		if(connexion!=null) {
+			/** Traitements SQL */
+			try {
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, key);
+				ResultSet resultSet   				= preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					infoDetail = map(resultSet);
+					if(infoDetail!=null) listeDonnees.add(infoDetail);
+				}	
+			} catch (SQLException e) {
+				/**
+				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
+				 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
+				 */
+				class Dummy {};
+				String methodeName 	= Dummy.class.getEnclosingMethod().getName();
+				gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+			}		
 		}
 		return listeDonnees;			
 	}
@@ -77,7 +80,7 @@ public class InfoDetailBdd extends ConnexionBdd {
 		ObservableList<InfoDetail> listeDonnees = FXCollections.observableArrayList();
 		InfoDetail infoDetail 				  	= null;
 		/** Initialisation de la requête **/
-		String SQL		= "";
+		String SQL		= "SELECT * FROM InfoDetail...";
 		/** Connexion à la base de données **/
 		Connection connexion = trtConnexionBdd();
 		/** Traitements SQL */
@@ -111,14 +114,14 @@ public class InfoDetailBdd extends ConnexionBdd {
 		/** Déclaration des variables **/
 		InfoDetail infoDetail 				  	= null;
 		/** Initialisation de la requete **/
-		String SQL		= "SELECT InfoDetail.* FROM InfoDetail,InfoEntete WHERE InfoDetail.InfoEnteteIdt = InfoEntete.InfoEnteteIdt AND InfoEnteteKey = '" + key + "' AND infoDetailDescription = '" + description + "'";
+		String SQL		= "SELECT InfoDetail.* FROM InfoDetail,InfoEntete WHERE InfoDetail.InfoEnteteIdt = InfoEntete.InfoEnteteIdt AND InfoEnteteKey = ? AND infoDetailDescription = ?";
 		/** Connexion a la base de donnees **/
 		Connection connexion = trtConnexionBdd();
 		if(connexion!=null) {
 			/** Traitements SQL */
 			try {
-				Statement statement  = connexion.createStatement();
-				ResultSet resultSet  = statement.executeQuery(SQL);
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, key, description);
+				ResultSet resultSet   				= preparedStatement.executeQuery();
 				while (resultSet.next()) {
 					infoDetail = map(resultSet);
 				}	
@@ -130,7 +133,7 @@ public class InfoDetailBdd extends ConnexionBdd {
 				class Dummy {};
 				String methodeName 	= Dummy.class.getEnclosingMethod().getName();
 				gestionDesExceptionsStates(e, SQL, classeName, methodeName);
-			}
+			}		
 		}
 		return infoDetail;			
 	}

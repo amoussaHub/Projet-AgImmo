@@ -2,7 +2,10 @@ package bdd;
 
 import static utilities.GestionExceptions.gestionDesExceptionsMap;
 import static utilities.GestionExceptions.gestionDesExceptionsStates;
+import static utilities.UtilitiesJdbc.initialisationRequete;
+
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -39,24 +42,27 @@ public class FenetresBdd extends ConnexionBdd {
 		String SQL			= "";
 		SQL			       += "SELECT fenetreIdt, fenetreKey, fenetreLocation, fenetreStyleSheet, fenetreStageTitle, fenetreStageIcone, fenetreLoaderMsgErreur";
 		SQL			       += " FROM dbo.Fenetres";
-		SQL			       += " WHERE fenetreKey like '" + key + "'";
+		SQL			       += " WHERE fenetreKey like ?";
 		/** Connexion à la base de données **/
 		Connection connexion = trtConnexionBdd();
 		/** Traitements SQL */
-		try {
-			Statement statement  = connexion.createStatement();
-			ResultSet resultSet  = statement.executeQuery(SQL);
-			while (resultSet.next()) {
-				fenetre = map(resultSet);
-			}	
-		} catch (SQLException e) {
-			/**
-			 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
-			 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
-			 */
-			class Dummy {};
-			String methodeName 	= Dummy.class.getEnclosingMethod().getName();
-			gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+		if(connexion!=null) {
+			/** Traitements SQL */
+			try {
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, key);
+				ResultSet resultSet   				= preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					fenetre = map(resultSet);
+				}	
+			} catch (SQLException e) {
+				/**
+				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
+				 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
+				 */
+				class Dummy {};
+				String methodeName 	= Dummy.class.getEnclosingMethod().getName();
+				gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+			}		
 		}
 		return fenetre;		
 	}	

@@ -72,24 +72,27 @@ public class CivilityBdd extends ConnexionBdd {
 		/** Déclaration des variables **/
 		Civility civility						= null;	
 		/** Initialisation de la requête **/
-		String SQL		 = "SELECT * FROM Civility WHERE civilityIdt = " + civilityIdt;
+		String SQL		 = "SELECT * FROM Civility WHERE civilityIdt = ?";
 		/** Connexion à la base de données **/
 		Connection connexion = trtConnexionBdd();
 		/** Traitements SQL */
-		try {
-			Statement statement  = connexion.createStatement();
-			ResultSet resultSet  = statement.executeQuery(SQL);
-			while (resultSet.next()) {
-				civility = map(resultSet);
-			}	
-		} catch (SQLException e) {
-			/**
-			 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
-			 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
-			 */
-			class Dummy {};
-			String methodeName 	= Dummy.class.getEnclosingMethod().getName();
-			gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+		if(connexion!=null) {
+			/** Traitements SQL */
+			try {
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, civilityIdt);
+				ResultSet resultSet   				= preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					civility = map(resultSet);
+				}	
+			} catch (SQLException e) {
+				/**
+				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
+				 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
+				 */
+				class Dummy {};
+				String methodeName 	= Dummy.class.getEnclosingMethod().getName();
+				gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+			}		
 		}
 		return civility;	
 	}
