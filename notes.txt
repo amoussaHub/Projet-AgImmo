@@ -1,4 +1,13 @@
 notes lot 2 : 
+- requetes lot2_2 : 
+	INSERT INTO InfoEntete(infoEnteteKey, infoEnteteDescription, infoEnteteCbx, infoEnteteNbreDetailMax)
+	VALUES('Chiffrement', 'Données chiffrement', '', 1);
+
+	INSERT INTO InfoEntete(infoEnteteKey, infoEnteteDescription, infoEnteteCbx, infoEnteteNbreDetailMax)
+	VALUES('chiffrementAgent', 'Enregistrement permettant de lancer le batch de chiffrement', '', 0);
+	
+	INSERT INTO InfoDetail(infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault, infoEnteteIdt, infoDetailKeyIdt)
+	VALUES('BlowFish', 'Clé de chiffrement BlowFish', 'U*U68xf6*@Aj', 0, 0.00, 1, 0, ..., 1);
 
 - requête lot2_3 :
 	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)

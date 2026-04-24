@@ -20,6 +20,7 @@ public class Cstes {
 	/** Entetes informations **/
 	public final static String 	DEFAULT					= "ValeursDefaut";
 	public final static String 	DOSSIERS				= "Dossiers";
+	public final static String CHIFFREMENT 				= "Chiffrement";
 
 	/** Valeurs par défaut **/
 	public final static int 	DEFAULTCIVILITE			= 1;
@@ -48,6 +49,10 @@ public class Cstes {
 
 	/** Version de l'application **/
 	public final static String  VERSIONAPPLICATION		= "V.02";
+	
+	/** Valeurs chiffrement **/
+	public final static String KEYBF 					= "BlowFish";
+	public final static String TRTCHIFFREMENTAGENT 		= "chiffrementAgent";
 	
 	/** Templates **/
 	public final static String WEBMAPS = "<!DOCTYPE html><html lang=\"fr\"><body ><iframe src=\"carte\" width=\"495\" height=\"500\"style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\"referrerpolicy=\"no-referrer-when-downgrade\"></iframe></body></html>";
