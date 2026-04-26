@@ -119,6 +119,33 @@ public class CompanyBdd extends ConnexionBdd {
 		}
 		return nbreEnreg;	
 	}
+	public static Company selectOneCompany(int companyIdt) {
+		/** Initialisation des variables **/
+		Company company							= null;
+		/** Initialisation de la requête **/
+		String SQL		= "SELECT * FROM Company WHERE companyIdt = ?";
+		/** Connexion à la base de données **/
+		Connection connexion = trtConnexionBdd();
+		if(connexion!=null) {
+			/** Traitements SQL */
+			try {
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, companyIdt);
+				ResultSet resultSet   				= preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					company = map(resultSet);
+				}	
+			} catch (SQLException e) {
+				/**
+				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
+				 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
+				 */
+				class Dummy {};
+				String methodeName 	= Dummy.class.getEnclosingMethod().getName();
+				gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+			}		
+		}
+		return company;
+	}
 	/**
 	 * Méthode permettant d'insérer une company
 	 * @param company	[Company]	: Company à insérer

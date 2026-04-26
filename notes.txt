@@ -54,6 +54,7 @@ notes lot 4 :
 
 Demander si il faut ajouter une méthode "selectOneCompany" et une autre "IsAgentAttached".
 Demander de l'aide pour la requête "selectAllContactWithSelection"
+continuer les fichiers : townBdd, LandlordBdd, ContactBdd...
 
 -requête lot 4
 	INSERT INTO InfoEntete(infoEnteteKey, infoEnteteDescription, infoEnteteCbx, infoEnteteNbreDetailMax)

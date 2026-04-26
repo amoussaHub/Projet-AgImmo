@@ -161,8 +161,8 @@ public class AgentEnAgenceBdd extends ConnexionBdd {
 			int 	companyIdt	= resultset.getInt("agentIdt");;
 			boolean agentIsAttached;
 			
-			Agent	agent 		= AgentBdd.selectAgentByIdt(agentIdt);
-			//Company	company		= CompanyBdd.;
+			Agent	agent 		= selectAgentByIdt(agentIdt);
+			Company	company		= selectOneCompany(companyIdt);
 			
 			
 		} catch (SQLException e) {
