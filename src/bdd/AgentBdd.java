@@ -174,10 +174,8 @@ public class AgentBdd extends ConnexionBdd {
 	    
 			
 			/** Création de l'agent **/
-	        agent = new Agent(
-	                personIdt, personName, personFirstName, personMobile, personPhone, personEmail,
-	                personCivility, civility, agentType, typeAgent, agentLogin, agentPwd, agentImage
-	        );
+	        agent = new Agent(personIdt, personName, personFirstName, personMobile, personPhone, personEmail,
+	                personCivility, civility, agentType, typeAgent, agentLogin, agentPwd, agentImage);
 	
 		} catch (SQLException e) {
 			/**

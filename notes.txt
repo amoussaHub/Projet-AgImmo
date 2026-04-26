@@ -49,3 +49,39 @@ notes lot 2 :
 	VALUES('CompanyDefinition', '/views/CompanyDefinition.fxml', '/style/application.css', 'Ag''immo - Définition d''une agence', 'file:src/images/agences.jpg', 'Erreur d''appel de la fenêtre de définition d''une agence');
 	
 	à faire : gérer le Siren et Siret (Siren + 5 chiffres) (avec un listenner qui ajoute le siren dans le siret?)
+	
+notes lot 4 :
+
+Demander si il faut ajouter une méthode "selectOneCompany" et une autre "IsAgentAttached".
+Demander de l'aide pour la requête "selectAllContactWithSelection"
+
+-requête lot 4
+	INSERT INTO InfoEntete(infoEnteteKey, infoEnteteDescription, infoEnteteCbx, infoEnteteNbreDetailMax)
+	VALUES('TypeContact', 'Liste des différents types de contact', 'cbxContactType', 2);
+	
+	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
+	VALUES(14, 2, 'Propriétaires', 'Propriétaires', 'Propriétaires', 1, 0, 1, 1);
+
+	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
+	VALUES(14, 3, 'Locataires', 'Locataires', 'Locataires', 2, 0, 2, 0);
+	
+	INSERT INTO InfoEntete(infoEnteteKey, infoEnteteDescription, infoEnteteCbx,infoEnteteNbreDetailMax)
+	VALUES('DonnéesBancaires', 'Paramétrage des données bancaires','', 2);
+	
+	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
+	VALUES(16, 12, 'CodeBanque', 'Longueur du code banque', '', 5, 0, 1, 0);
+
+	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
+	VALUES(16, 13, 'CodeGuichet', 'Longueur du code guichet', '', 5, 0, 2, 0);
+
+	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
+	VALUES(16, 14, 'NumeroCpt', 'Longueur du n° de compte', '', 11, 0, 3, 0);
+
+	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
+	VALUES(16, 15, 'CleRib', 'Longueur RIB', '', 2, 0, 4, 0);
+
+	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
+	VALUES(16, 16, 'Iban', 'Longueur Iban', '', 27, 0, 5, 0);
+
+	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
+	VALUES(16, 17, 'Bic', 'Longeur Bic', '', 11, 0, 6, 0);

@@ -211,4 +211,23 @@ public class UtilitiesControls {
 		}    	
 		return keyFormat;
 	}
+	/**
+	 * Description 	: Méthode permettant de contrôler si le texte saisi dans un contrôle TextField 
+	 *				  à la longueur souhaitée	 
+	 * @param	textField   [TextField]	: Correspond au contrôle TextField à contrôler.
+	 * @param   longueur	[int] 		: longueur à tester
+	 * @return  			[boolean]            
+	 */
+ 	public static boolean isTextFieldLongueur(TextField textField, int longueur) {
+		/** Initialisation des variables **/
+		boolean textFieldLenght 		= true;
+		String classeErreur  			= "zoneEnErreur";
+		textField.getStyleClass().remove(classeErreur);
+		/** Contrôle **/
+ 		if(textField.getLength()!=longueur) {
+ 			textFieldLenght = false;
+			textField.getStyleClass().add(classeErreur);
+ 		}
+ 		return textFieldLenght;
+ 	}
 }

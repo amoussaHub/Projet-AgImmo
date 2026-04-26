@@ -7,7 +7,6 @@ import javafx.beans.property.StringProperty;
  * Classe	: Town
  * Cette classe contient les attributs, constructeur, Accesseurs et methodes permettant
  * d'instancier des objets de Type [Town].
- * -------- A retirer
  * Cette classe est en lecture seule (uniquement les Getters)
  * Les donnees seront uniquement inserees par requete SQL. Il n'est pas prevu de programme
  * de gestion de ces informations
@@ -38,6 +37,10 @@ public class Town {
 		this.townName 		= newTownName;
 		this.townPostCode 	= newTownPostCode;
 	}
+	public Town() {
+		super();
+	}
+
 	/**
 	 * @return the townIdt
 	 */
@@ -50,12 +53,21 @@ public class Town {
 	public String getTownName() {
 		return townName;
 	}
+	public StringProperty getTownNameProperty() {
+		return new SimpleStringProperty(this.townName);
+	}
 	/**
 	 * @return the townPostCode
 	 */
 	public String getTownPostCode() {
 		return townPostCode;
 	}
+	public StringProperty getTownPostCodeProperty() {
+		return new SimpleStringProperty(this.townPostCode);
+	}
+	/**
+	 * @return the town complete
+	 */
 	/**
 	 * @return the town complete
 	 */
@@ -63,6 +75,18 @@ public class Town {
 		String townNameCp			= this.townPostCode + " " + this.townName; 
 		StringProperty townComplete	= new SimpleStringProperty(townNameCp);
 		return townComplete;
+	}
+	/**
+	 * @param townName the townName to set
+	 */
+	public void setTownName(String townName) {
+		this.townName = townName;
+	}
+	/**
+	 * @param townPostCode the townPostCode to set
+	 */
+	public void setTownPostCode(String townPostCode) {
+		this.townPostCode = townPostCode;
 	}
 	/**
 	 * Methode	: toString

@@ -63,9 +63,9 @@
                           <items>
                               <MenuItem fx:id="mnuAdministration" mnemonicParsing="false" onAction="#evtOnActionMnuAdministration" text="Administration" />
                               <SeparatorMenuItem mnemonicParsing="false" />
-                              <MenuItem mnemonicParsing="false" text="Gestion des mots de passe" />
-                              <SeparatorMenuItem mnemonicParsing="false" />
                               <MenuItem fx:id="mnuAgences" mnemonicParsing="false" onAction="#evtOnActionMnuAgences" text="Gestion des agences" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <MenuItem mnemonicParsing="false" text="Gestion des contacts" />
                               <SeparatorMenuItem mnemonicParsing="false" />
                             <MenuItem fx:id="mnuDeconnexion" mnemonicParsing="false" onAction="#evtOnActionMnuDeconnexion" text="Deconnexion" />
                           </items>

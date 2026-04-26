@@ -13,8 +13,10 @@ import javafx.stage.Stage;
  */
 public abstract class GeneralDefinitionController {
 	/** Déclaration des variables de la fenêtre **/
-	int index								= 0;
-	String messageErreur 					= "";
+	protected boolean validerClicked 	= false;								
+	protected String  codeAction		= "";
+	protected int 	  index				= 0;
+	protected String  messageErreur 	= "";
 	/** Declaration des controles de la fenetre **/
 	@FXML 	protected Stage 				dialogStage;
 	@FXML	protected Label					lblTitre;
@@ -52,4 +54,13 @@ public abstract class GeneralDefinitionController {
 	public void evtOnMouseClickedBtnAnnuler() {
 		this.dialogStage.close();
 	}	
+	/**
+	 * Description 	: Cette Methode renvoie la valeur de l'attribut [validerClicked]
+	 *							  permettant a l'ecran appelant de savoir si le bouton [Valider]
+	 *							  a ete clique
+	 * @return	boolean
+	 */
+	@FXML public boolean isValiderClicked() {
+		return validerClicked;
+	}
 }

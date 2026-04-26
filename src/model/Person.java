@@ -1,4 +1,8 @@
 package model;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  * La classe [Person] est une classe abstraite, elle ne peut être instancier.
  * @author acasara
@@ -47,6 +51,8 @@ public abstract class Person {
 		this.personCivility 	= newPersonCivility;
 		this.civility			= newCivility;
 	}
+	public Person() {
+	}
 	/**
 	 * @return the personIdt
 	 */
@@ -54,22 +60,13 @@ public abstract class Person {
 		return personIdt;
 	}
 	/**
-	 * @param personIdt the personIdt to set
-	 */
-	public void setPersonIdt(int personIdt) {
-		this.personIdt = personIdt;
-	}
-	/**
 	 * @return the personName
 	 */
 	public String getPersonName() {
 		return personName;
 	}
-	/**
-	 * @param personName the personName to set
-	 */
-	public void setPersonName(String personName) {
-		this.personName = personName;
+	public StringProperty getPersonNameProperty() {
+		return new SimpleStringProperty(personName);
 	}
 	/**
 	 * @return the personFirstName
@@ -77,11 +74,8 @@ public abstract class Person {
 	public String getPersonFirstName() {
 		return personFirstName;
 	}
-	/**
-	 * @param personFirstName the personFirstName to set
-	 */
-	public void setPersonFirstName(String personFirstName) {
-		this.personFirstName = personFirstName;
+	public StringProperty getPersonFirstNameProperty() {
+		return new SimpleStringProperty(personFirstName);
 	}
 	/**
 	 * @return the personMobile
@@ -90,22 +84,10 @@ public abstract class Person {
 		return personMobile;
 	}
 	/**
-	 * @param personMobile the personMobile to set
-	 */
-	public void setPersonMobile(String personMobile) {
-		this.personMobile = personMobile;
-	}
-	/**
 	 * @return the personPhone
 	 */
 	public String getPersonPhone() {
 		return personPhone;
-	}
-	/**
-	 * @param personPhone the personPhone to set
-	 */
-	public void setPersonPhone(String personPhone) {
-		this.personPhone = personPhone;
 	}
 	/**
 	 * @return the personEmail
@@ -114,22 +96,10 @@ public abstract class Person {
 		return personEmail;
 	}
 	/**
-	 * @param personEmail the personEmail to set
-	 */
-	public void setPersonEmail(String personEmail) {
-		this.personEmail = personEmail;
-	}
-	/**
 	 * @return the personCivility
 	 */
 	public int getPersonCivility() {
 		return personCivility;
-	}
-	/**
-	 * @param personCivility the personCivility to set
-	 */
-	public void setPersonCivility(int personCivility) {
-		this.personCivility = personCivility;
 	}
 	/**
 	 * @return the civility
@@ -138,18 +108,61 @@ public abstract class Person {
 		return civility;
 	}
 	/**
+	 * @param personName the personName to set
+	 */
+	public void setPersonName(String personName) {
+		this.personName = personName;
+	}
+	/**
+	 * @param personFirstName the personFirstName to set
+	 */
+	public void setPersonFirstName(String personFirstName) {
+		this.personFirstName = personFirstName;
+	}
+	/**
+	 * @param personMobile the personMobile to set
+	 */
+	public void setPersonMobile(String personMobile) {
+		this.personMobile = personMobile;
+	}
+	/**
+	 * @param personPhone the personPhone to set
+	 */
+	public void setPersonPhone(String personPhone) {
+		this.personPhone = personPhone;
+	}
+	/**
+	 * @param personEmail the personEmail to set
+	 */
+	public void setPersonEmail(String personEmail) {
+		this.personEmail = personEmail;
+	}
+	/**
+	 * @param personCivility the personCivility to set
+	 */
+	public void setPersonCivility(int personCivility) {
+		this.personCivility = personCivility;
+	}
+	/**
 	 * @param civility the civility to set
 	 */
 	public void setCivility(Civility civility) {
 		this.civility = civility;
 	}
+	/**
+	 * @return	[String] 
+	 */
 	@Override
 	public String toString() {
+		return personName + personFirstName;
+	}
+	/**
+	 * Description				: Méthode permettant d'afficher l'état de l'objet courant
+	 * @return	[String]
+	 */
+	public String affichagePerson() {
 		return "Person [personIdt=" + personIdt + ", personName=" + personName + ", personFirstName=" + personFirstName
 				+ ", personMobile=" + personMobile + ", personPhone=" + personPhone + ", personEmail=" + personEmail
-				+ ", personCivility=" + personCivility + ", civility=" + civility + "]";
+				+ ", personCivility=" + personCivility + "]";
 	}
-	
-	
-	
 }

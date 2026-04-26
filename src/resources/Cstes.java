@@ -21,6 +21,7 @@ public class Cstes {
 	public final static String 	DEFAULT					= "ValeursDefaut";
 	public final static String 	DOSSIERS				= "Dossiers";
 	public final static String CHIFFREMENT 				= "Chiffrement";
+	public final static String TYPECONTACT 				= "TypeContact";
 
 	/** Valeurs par défaut **/
 	public final static int 	DEFAULTCIVILITE			= 1;
@@ -46,9 +47,16 @@ public class Cstes {
 	public final static String  TYPEAGENT				= "TypeAgentAdmin";
 	public final static String 	AGENCESMANAGEMENT 		= "CompanyManagement";
 	public final static String 	AGENCEDEFINITION 		= "CompanyDefinition";
+	public final static String LANDLORDMANAGEMENT 		= "LandlordManagement";
+	public final static String LANDLORDDEFINITION 		= "LandlordDefinition";
+	public final static String CONTACTDEFINITION 		= "ContactDefinition";
+	public final static String CONTACTMANAGEMENT 		= "ContactManagement";
+	public final static String TOWNMANAGEMENT 			= "TownManagement";
+	public final static String TOWNDEFINITION 			= "TownDefinition";
+	
 
 	/** Version de l'application **/
-	public final static String  VERSIONAPPLICATION		= "V.02";
+	public final static String  VERSIONAPPLICATION		= "V.04";
 	
 	/** Valeurs chiffrement **/
 	public final static String KEYBF 					= "BlowFish";
@@ -56,5 +64,14 @@ public class Cstes {
 	
 	/** Templates **/
 	public final static String WEBMAPS = "<!DOCTYPE html><html lang=\"fr\"><body ><iframe src=\"carte\" width=\"495\" height=\"500\"style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\"referrerpolicy=\"no-referrer-when-downgrade\"></iframe></body></html>";
+	
+	/** Donnees bancaires **/
+	public final static String PARAMBQDETAIL 			= "DonnéesBancaires";
+	public final static String LENGHTCODEBANQUE 		= "CodeBanque";
+	public final static String LENGHTCODEGUICHET 		= "CodeGuichet";
+	public final static String LENGHTNUMCPT 			= "NumeroCpt";
+	public final static String LENGHTRIB 				= "CleRib";
+	public final static String LENGHTIBAN 				= "Iban";
+	public final static String LENGHTBIC 				= "Bic";
 	
 }
