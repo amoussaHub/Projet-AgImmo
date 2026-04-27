@@ -16,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Address;
 import model.BankDetail;
+import model.Civility;
 import model.Landlord;
 import model.LegalRegime;
 
@@ -92,11 +93,28 @@ public class LandlordBdd extends ConnexionBdd {
 		/** Initialisation des variables **/
 		int nbreEnreg = 0;
 		/** Initialisation de la requete **/
-		String SQL		= "";
+		String SQL		= "INSERT INTO Landlord(landlordName, landlordFirstName, landlordMobile, landlordPhone, landlordEmail, landlordCivility, landlordLegalRegimeIdt, landlordAddressIdt, landlordBankDetailIdt, landlordPrivateData)"
+						+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		/** Connexion a la base de donnees **/
 		Connection connexion = trtConnexionBdd();
 		if(connexion!=null) {
 			/** Traitements SQL */
+			if(connexion!=null) {
+				/** Traitements SQL */
+				try {
+					PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, landlord.getPersonName(), landlord.getPersonFirstName(), landlord.getPersonMobile(), landlord.getPersonPhone(), landlord.getPersonEmail(),
+														  landlord.getPersonCivility(), landlord.getLandlordLegalRegimeIdt(), landlord.getLandlordAddressIdt(), landlord.getLandlordBankDetailIdt(), landlord.getLandlordPrivateData());
+					nbreEnreg							= preparedStatement.executeUpdate();
+				} catch (SQLException e) {
+					/**
+					 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
+					 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
+					 */
+					class Dummy {};
+					String methodeName 	= Dummy.class.getEnclosingMethod().getName();
+					gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+				}	
+			}
 		}		
 		return nbreEnreg;		
 	}
@@ -109,11 +127,25 @@ public class LandlordBdd extends ConnexionBdd {
 		/** Initialisation des variables **/
 		int nbreEnreg = 0;
 		/** Initialisation de la requete **/
-		String SQL		= "";
+		String SQL		= "UPDATE Landlord SET landlordName = ?, landlordFirstName = ?, landlordMobile = ?, landlordPhone = ?, landlordEmail = ?, landlordCivility = ?, landlordLegalRegimeIdt = ?, landlordAddressIdt = ?, landlordBankDetailIdt = ?, landlordPrivateData = ?"
+						+ "WHERE landlordIdt = ?";
 		/** Connexion a la base de donnees **/
 		Connection connexion = trtConnexionBdd();
 		if(connexion!=null) {
 			/** Traitements SQL */
+			try {
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, landlord.getPersonName(), landlord.getPersonFirstName(), landlord.getPersonMobile(), landlord.getPersonPhone(), landlord.getPersonEmail(),
+													  landlord.getPersonCivility(), landlord.getLandlordLegalRegimeIdt(), landlord.getLandlordAddressIdt(), landlord.getLandlordBankDetailIdt(), landlord.getLandlordPrivateData(), landlord.getPersonIdt());
+				nbreEnreg							= preparedStatement.executeUpdate();
+			} catch (SQLException e) {
+				/**
+				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
+				 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
+				 */
+				class Dummy {};
+				String methodeName 	= Dummy.class.getEnclosingMethod().getName();
+				gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+			}	
 		}		
 		return nbreEnreg;		
 	}
@@ -126,11 +158,23 @@ public class LandlordBdd extends ConnexionBdd {
 		/** Initialisation des variables **/
 		int nbreEnreg = 0;
 		/** Initialisation de la requete **/
-		String SQL		= "";
+		String SQL		= "DELETE FROM Landlord WHERE landlordIdt = ?";
 		/** Connexion a la base de donnees **/
 		Connection connexion = trtConnexionBdd();
 		if(connexion!=null) {
 			/** Traitements SQL */
+			try {
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, landlord.getPersonIdt());
+				nbreEnreg							= preparedStatement.executeUpdate();
+			} catch (SQLException e) {
+				/**
+				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
+				 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
+				 */
+				class Dummy {};
+				String methodeName 	= Dummy.class.getEnclosingMethod().getName();
+				gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+			}	
 		}	
 		return nbreEnreg;		
 	}	
@@ -144,6 +188,30 @@ public class LandlordBdd extends ConnexionBdd {
 		/** Initialisation des variables **/
 		Landlord landlord							= null;
 		try {
+/** Initialisation des variables **/
+			
+			int 		personIdt        		= resultset.getInt("landlordIdt");
+	        String 		personName       		= resultset.getString("landlordName");
+	        String 		personFirstName  		= resultset.getString("landlordFirstName");
+	        String 		personMobile     		= resultset.getString("landlordMobile");
+	        String 		personPhone      		= resultset.getString("landlordPhone");
+	        String 		personEmail      		= resultset.getString("landlordEmail");
+	        int 		personCivility   		= resultset.getInt("landlordCivility");
+	        
+	        int 		landlordLegalRegimeIdt	= resultset.getInt("landlordLegalRegimeIdt");
+	    	int 		landlordAddressIdt		= resultset.getInt("landlordAddressIdt");
+	    	int 		landlordBankDetailIdt	= resultset.getInt("landlordBankDetailIdt");
+	    	Boolean		landlordPrivateData		= resultset.getBoolean("landlordPrivateData");
+	    	
+	    	Civility	civility				= CivilityBdd.selectOneCivility(personCivility);
+	    	LegalRegime	legalRegime				= LegalRegimeBdd.selectOneLegalRegime(landlordLegalRegimeIdt);
+	    	Address		address					= AddressBdd.selectOneAdresse(landlordAddressIdt);
+	    	BankDetail	bankDetail				= BankDetailBdd.selectOneBankDetail(landlordBankDetailIdt);
+	    	
+	    	/** Création du Landlord **/
+	    	landlord = 	new Landlord(personIdt, personName, personFirstName, personMobile, personPhone, personEmail, personCivility, civility, landlordLegalRegimeIdt, landlordAddressIdt, 
+	    				landlordBankDetailIdt, legalRegime, address, bankDetail, landlordPrivateData);
+	    	
 		} catch (SQLException e) {
 			System.out.println("Erreur lors de la lecture des donnees du proprietaire : " + e);
 			e.printStackTrace();

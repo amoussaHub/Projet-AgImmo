@@ -1,3 +1,5 @@
+Si possible revoir lot1
+
 notes lot 2 : 
 - requetes lot2_2 : 
 	INSERT INTO InfoEntete(infoEnteteKey, infoEnteteDescription, infoEnteteCbx, infoEnteteNbreDetailMax)
