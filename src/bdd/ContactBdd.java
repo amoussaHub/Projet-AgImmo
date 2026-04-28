@@ -40,11 +40,31 @@ public class ContactBdd extends ConnexionBdd {
 		ObservableList<Contact> listeDonnees 	= FXCollections.observableArrayList();
 		Contact contact							= null;	
 		/** Initialisation de la requete **/
-		String SQL		= "";
+		String SQL		= "SELECT c.*, id.infoDetailLbl AS contactTypeLabel FROM Contact c "
+						+ "INNER JOIN  InfoDetail id ON c.contactType = id.infoDetailValueInt"
+						+ "INNER JOIN InfoEntete ie ON id.infoEnteteIdt = ie.infoEnteteIdt WHERE ie.infoEnteteKey = ? AND c.contactType IN (?, ?)"
+						+ "ORDER BY c.contactName ASC, c.contactFirstName ASC";
+
 		/** Connexion a la base de donnees **/
 		Connection connexion = trtConnexionBdd();
 		if(connexion!=null) {
 			/** Traitements SQL */
+			try {
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, key, topLandlord, topTenant);
+				ResultSet resultSet   				= preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					contact = map(resultSet);
+					if(contact!=null) listeDonnees.add(contact);
+				}	
+			} catch (SQLException e) {
+				/**
+				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
+				 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
+				 */
+				class Dummy {};
+				String methodeName 	= Dummy.class.getEnclosingMethod().getName();
+				gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+			}
 		}		
 		return listeDonnees;
 	}
@@ -84,13 +104,13 @@ public class ContactBdd extends ConnexionBdd {
 	 */
 	private static Contact map(ResultSet resultset) {
 		/** Initialisation des variables **/
-		Contact contact 						= null;
+		Contact contact 					= null;
 		try {
 			int 		contactIdt			= resultset.getInt("contactIdt");
 			String 		contactName			= resultset.getString("contactName");
 			String 		contactFirstName	= resultset.getString("contactFirstName");
 			String		contactMobile		= resultset.getString("contactMobile");
-			String		contactEmail		= resultset.getString("");
+			String		contactEmail		= resultset.getString("contactEmail");
 			int 		contactCivilite		= resultset.getInt("contactCivilite");
 			int			contactType			= resultset.getInt("contactType");
 			String 		contactTypeLbl		= resultset.getString("contactType");
@@ -99,7 +119,7 @@ public class ContactBdd extends ConnexionBdd {
 			
 			Civility	civility			= CivilityBdd.selectOneCivility(contactCivilite);
 			
-			contact								= new Contact(contactIdt, contactName, contactFirstName, contactMobile, contactEmail, contactCivilite, civility, contactType, contactTypeLbl, contactMessage, contactDateDemande);
+			contact							= new Contact(contactIdt, contactName, contactFirstName, contactMobile, contactEmail, contactCivilite, civility, contactType, contactTypeLbl, contactMessage, contactDateDemande);
 		} catch (SQLException e) {
 			System.out.println("Erreur lors de la lecture du contact : " + e);
 			e.printStackTrace();

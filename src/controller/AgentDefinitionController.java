@@ -26,6 +26,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import bdd.AgentBdd;
+import bdd.AgentEnAgenceBdd;
 import bdd.CivilityBdd;
 import bdd.TypeAgentBdd;
 import interfaces.GestionCbxInfos;
@@ -159,7 +160,7 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 			public void handle(ActionEvent event) {
 
 				fileChooser.setTitle("Sélectionner une image de portrait");
-				fileChooser.setInitialDirectory(new File("C:/Documents/AgImmo/Agents"));
+				fileChooser.setInitialDirectory(new File("C:/Users/amoussady/eclipse-workspace/Projet-AgImmo/src/images"));
 
 				File file = fileChooser.showOpenDialog(dialogStage);
 
@@ -253,6 +254,7 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 		LblAgentImage.setText(agent.getAgentImage());
 		
 		listeAgences = selectAllAgencesAgent(agent.getPersonIdt());
+		
 		tbcCompanyName.setCellValueFactory(CellDataFeatures -> CellDataFeatures.getValue().getCompany().getCompanyNameProperty());
 		tbcIsAttached.setCellValueFactory(CellDataFeatures -> CellDataFeatures.getValue().getAgentIsAttachedProperty());
 		tbvDonnees.setItems(listeAgences);
@@ -372,6 +374,8 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 	@Override
 	@FXML public void evtOnMouseClickedBtnValider() {
 		/** Initialisation de la variable qui contiendra les messgaes d'erreurs **/
+		System.out.println(listeAgences);
+
 		messageErreur = "";
 		/** Contrôle des zones obligatoires et des formats **/
 
@@ -406,15 +410,27 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 		String pwdHache = null;
 
 		// Si le mot de passe a été modifié
-		if (!pwd.equals(ancienPwd)) {
-			if (!pwd.matches(regexPwd)) {
-				messageErreur += "Mot de passe invalide (1 maj, 1 min, 1 chiffre, 1 spécial, 8-20 caractères).\n";
-			} else if (!pwd.equals(pwdConf)) { 
-				messageErreur += "Les mots de passe ne correspondent pas.\n";
-			} else {
-				pwdHache = BCrypt.withDefaults().hashToString(12,pwd.toCharArray());
+		if (chkUpdatePwd.isSelected()) {
+			if (!pwd.equals(ancienPwd)) {
+				if (!pwd.matches(regexPwd)) {
+					messageErreur += "Mot de passe invalide (1 maj, 1 min, 1 chiffre, 1 spécial, 8-20 caractères).\n";
+				} else if (!pwd.equals(pwdConf)) { 
+					messageErreur += "Les mots de passe ne correspondent pas.\n";
+				} else {
+					pwdHache = BCrypt.withDefaults().hashToString(12,pwd.toCharArray());
+				}
 			}
 		}
+		
+		Boolean verifAttached = false;
+		for (AgentEnAgence agentEnAgence : listeAgences) {
+			if (agentEnAgence.getAgentIsAttached()) {
+				verifAttached = true;
+				break;
+			}
+		}
+		if (!verifAttached) messageErreur += "L'agent doit être attaché à une agence";
+		
 
 
 		/** S'il y a une erreur, on l'affiche dans la textArea **/
@@ -444,9 +460,15 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 				agent.setTypeAgent(cbxTypeAgent.getSelectionModel().getSelectedItem());
 				agent.setAgentPwd(pwdHache);
 				agent.setAgentImage(LblAgentImage.getText());
-
-
+				
 				AgentBdd.updateAgent(agent);
+				AgentEnAgenceBdd.deleteAgentEnAgence(agent.getPersonIdt());
+				for (AgentEnAgence agentEnAgence : listeAgences) {
+					if (agentEnAgence.getAgentIsAttached()) {
+						AgentEnAgenceBdd.insertAgentEnAgence(agentEnAgence);
+					}
+				}
+				
 
 				validerClicked = true;
 				dialogStage.close();

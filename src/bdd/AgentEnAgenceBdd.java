@@ -29,14 +29,15 @@ public class AgentEnAgenceBdd extends ConnexionBdd {
 		ObservableList<AgentEnAgence> listeDonnees 	= FXCollections.observableArrayList();
 		AgentEnAgence agentEnAgence					= null;	
 		/** Initialisation de la requête **/
-		String SQL		= "SELECT agentIdt, Company.companyIdt, companyName FROM AgentEnAgence FULL OUTER JOIN Company ON Company.companyIdt = AgentEnAgence.companyIdt";
+		//String SQL		= "SELECT agentIdt, Company.companyIdt, companyName FROM AgentEnAgence FULL OUTER JOIN Company ON Company.companyIdt = AgentEnAgence.companyIdt";
+		String SQL 			= "SELECT agentIdt, Company.companyIdt, companyName FROM Company LEFT JOIN AgentEnAgence ON Company.companyIdt = ?";
 		/** Connexion à la base de données **/
 		Connection connexion = trtConnexionBdd();
 		/** Traitements SQL */
 		if(connexion!=null) {
 			/** Traitements SQL */
 			try {
-				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false);
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, agentIdt);
 				ResultSet resultSet   				= preparedStatement.executeQuery();
 				while (resultSet.next()) {
 					agentEnAgence = map(resultSet);
@@ -158,11 +159,13 @@ public class AgentEnAgenceBdd extends ConnexionBdd {
 		try {
 			/** Initialisation des variables **/
 			int 	agentIdt	= resultset.getInt("agentIdt");
-			int 	companyIdt	= resultset.getInt("agentIdt");;
-			boolean agentIsAttached;
+			int 	companyIdt	= resultset.getInt("companyIdt");
+			boolean agentIsAttached = (agentIdt != 0);
 			
 			Agent	agent 		= selectAgentByIdt(agentIdt);
 			Company	company		= selectOneCompany(companyIdt);
+			
+			agentEnAgence = new AgentEnAgence(agentIdt, agent, companyIdt, company, agentIsAttached);
 			
 			
 		} catch (SQLException e) {

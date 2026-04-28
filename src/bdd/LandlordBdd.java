@@ -76,11 +76,28 @@ public class LandlordBdd extends ConnexionBdd {
 		Landlord landlord						= null;
 		selection								= "%" + selection + "%";
 		/** Initialisation de la requete **/
-		String SQL		= "";
+		String SQL		= "SELECT * FROM Landlord, Address, Town WHERE landlordAddressIdt = addressIdt AND addressTownIdt = townIdt AND"
+						+ "landlordNom LIKE ? OR landlordFirstName LIKE ? OR townName LIKE ? OR addressPortLabel LIKE ?";
 		/** Connexion a la base de donnees **/
 		Connection connexion = trtConnexionBdd();
 		if(connexion!=null) {
 			/** Traitements SQL */
+			try {
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, selection);
+				ResultSet resultSet   				= preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					landlord = map(resultSet);
+					if(landlord!=null) listeDonnees.add(landlord);
+				}	
+			} catch (SQLException e) {
+				/**
+				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
+				 * java.lang.reflect.Method qui contient des informations sur la méthode immédiatement englobante.
+				 */
+				class Dummy {};
+				String methodeName 	= Dummy.class.getEnclosingMethod().getName();
+				gestionDesExceptionsStates(e, SQL, classeName, methodeName);
+			}
 		}
 		return listeDonnees;			
 	}	

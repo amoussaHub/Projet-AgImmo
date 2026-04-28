@@ -63,28 +63,28 @@ continuer les fichiers : townBdd, LandlordBdd, ContactBdd...
 	VALUES('TypeContact', 'Liste des différents types de contact', 'cbxContactType', 2);
 	
 	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
-	VALUES(14, 2, 'Propriétaires', 'Propriétaires', 'Propriétaires', 1, 0, 1, 1);
+	VALUES(7, 2, 'Propriétaires', 'Propriétaires', 'Propriétaires', 1, 0, 1, 1);
 
 	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
-	VALUES(14, 3, 'Locataires', 'Locataires', 'Locataires', 2, 0, 2, 0);
+	VALUES(7, 3, 'Locataires', 'Locataires', 'Locataires', 2, 0, 2, 0);
 	
 	INSERT INTO InfoEntete(infoEnteteKey, infoEnteteDescription, infoEnteteCbx,infoEnteteNbreDetailMax)
 	VALUES('DonnéesBancaires', 'Paramétrage des données bancaires','', 2);
 	
 	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
-	VALUES(16, 12, 'CodeBanque', 'Longueur du code banque', '', 5, 0, 1, 0);
+	VALUES(8, 12, 'CodeBanque', 'Longueur du code banque', '', 5, 0, 1, 0);
 
 	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
-	VALUES(16, 13, 'CodeGuichet', 'Longueur du code guichet', '', 5, 0, 2, 0);
+	VALUES(8, 13, 'CodeGuichet', 'Longueur du code guichet', '', 5, 0, 2, 0);
 
 	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
-	VALUES(16, 14, 'NumeroCpt', 'Longueur du n° de compte', '', 11, 0, 3, 0);
+	VALUES(8, 14, 'NumeroCpt', 'Longueur du n° de compte', '', 11, 0, 3, 0);
 
 	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
-	VALUES(16, 15, 'CleRib', 'Longueur RIB', '', 2, 0, 4, 0);
+	VALUES(8, 15, 'CleRib', 'Longueur RIB', '', 2, 0, 4, 0);
 
 	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
-	VALUES(16, 16, 'Iban', 'Longueur Iban', '', 27, 0, 5, 0);
+	VALUES(8, 16, 'Iban', 'Longueur Iban', '', 27, 0, 5, 0);
 
 	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
-	VALUES(16, 17, 'Bic', 'Longeur Bic', '', 11, 0, 6, 0);
+	VALUES(8, 17, 'Bic', 'Longeur Bic', '', 11, 0, 6, 0);
