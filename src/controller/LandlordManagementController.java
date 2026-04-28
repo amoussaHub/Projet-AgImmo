@@ -7,6 +7,8 @@ import static bdd.LandlordBdd.deleteLandlord;
 import static bdd.LandlordBdd.selectAllLandlord;
 import static bdd.LandlordBdd.selectAllLandlordWithSelection;
 
+import bdd.LandlordBdd;
+import bdd.TownBdd;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -53,12 +55,29 @@ public class LandlordManagementController extends GeneralManagementController {
 		/** Declaration des colonnes de la TableView avec les attributs de la classe Landlord **/
 		/** Remplissage de la tableView **/
 		trtAffichageDonnees();
+		
+		if (listeDonnees.isEmpty()) {
+			btnModifier.setDisable(true);
+			btnSupprimer.setDisable(true);
+		}
 	}
 	/**
 	 * Methode 	: trtAffichageDonnees
 	 * Description 	: Methode gerant l'affichage et le reaffichage de la TableView
 	 */
 	private void  trtAffichageDonnees() {
+		tbvDonnees.getItems().clear();
+		listeDonnees.clear();
+		
+		if (listeDonnees.isEmpty()) listeDonnees = selectAllLandlord();
+		System.out.println(listeDonnees);
+		tbcLandlordCivility.setCellValueFactory(CellDataFeatures -> CellDataFeatures.getValue().getCivility().getCivilityLblProperty());
+		tbcLandlordNom.setCellValueFactory(CellDataFeatures -> CellDataFeatures.getValue().getPersonNameProperty());
+		tbcLandlordPrenom.setCellValueFactory(CellDataFeatures -> CellDataFeatures.getValue().getPersonFirstNameProperty());
+		tbcLandlordAdresse.setCellValueFactory(CellDataFeatures -> CellDataFeatures.getValue().getAddress().getAdressCompleteProperty());
+		tbcLandlordVille.setCellValueFactory(CellDataFeatures -> TownBdd.selectOneTown(CellDataFeatures.getValue().getAddress().getAddressTownIdt()).getTownCompleteProperty());
+		
+		tbvDonnees.setItems(listeDonnees);
 	}
 	/**
 	 * Methode 	: evtOnMouseClickedImvSelection
@@ -68,6 +87,7 @@ public class LandlordManagementController extends GeneralManagementController {
 	@Override
 	public void evtOnMouseClickedImvSelection() {
 		// TODO Auto-generated method stub
+		listeDonnees = LandlordBdd.selectAllLandlordWithSelection(txfSelection.getText());
 		trtAffichageDonnees();
 	}
 	/**

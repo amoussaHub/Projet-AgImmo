@@ -98,7 +98,22 @@ public class DashboardController {
 	/** Choix de menu : ajout d'un nouveau propriétaire */
 	@FXML public void evtOnActionMnuNouveauProprietaire() {}
 	/** Choix de menu : Liste des propriétaires existants */
-	@FXML public void evtOnActionMnuListeProprietaires() {}
+	@FXML public void evtOnActionMnuListeProprietaires() {
+		try {
+			Stage primaryStage = new Stage();
+			Fenetres fenetre = selectOneFenetre(Cstes.LANDLORDMANAGEMENT);
+			
+			if(fenetre!=null) {
+				LoaderFXML loaderFxml = new LoaderFXML(fenetre);
+				primaryStage = loaderFxml.createLoaderBorderPane();
+				LandlordManagementController controller = loaderFxml.getLoader().getController();
+				controller.setDialogStage(primaryStage);
+				primaryStage.show();
+			}   
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 	/** Choix de menu : ajout d'une nouvelle location */
 	@FXML public void evtOnActionMnuNouvelleLocation(){}
 	/** Choix de menu : Liste des locations existantes */
