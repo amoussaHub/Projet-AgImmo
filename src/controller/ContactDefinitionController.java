@@ -45,6 +45,7 @@ public class ContactDefinitionController extends GeneralDefinitionController {
 	 * @param 	contact	[Contact]
 	 */
 	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
 	
 	@Override

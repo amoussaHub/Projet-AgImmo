@@ -1,8 +1,7 @@
-/application/
-/batch/
 /bdd/
 /controller/
 /interfaces/
 /model/
 /resources/
 /utilities/
+/views/

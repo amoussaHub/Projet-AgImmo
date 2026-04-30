@@ -76,14 +76,14 @@ public class LandlordBdd extends ConnexionBdd {
 		Landlord landlord						= null;
 		selection								= "%" + selection + "%";
 		/** Initialisation de la requete **/
-		String SQL		= "SELECT * FROM Landlord, Address, Town WHERE landlordAddressIdt = addressIdt AND addressTownIdt = townIdt AND"
-						+ "landlordNom LIKE ? OR landlordFirstName LIKE ? OR townName LIKE ? OR addressPortLabel LIKE ?";
+		String SQL		= "SELECT * FROM Landlord, Address, Town WHERE landlordAddressIdt = addressIdt AND addressTownIdt = townIdt"
+						+ " AND (landlordName LIKE ? OR landlordFirstName LIKE ? OR townName LIKE ? OR addressPortLabel LIKE ?)";
 		/** Connexion a la base de donnees **/
 		Connection connexion = trtConnexionBdd();
 		if(connexion!=null) {
 			/** Traitements SQL */
 			try {
-				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, selection);
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, selection, selection, selection, selection);
 				ResultSet resultSet   				= preparedStatement.executeQuery();
 				while (resultSet.next()) {
 					landlord = map(resultSet);

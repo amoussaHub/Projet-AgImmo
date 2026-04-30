@@ -41,7 +41,7 @@ public class ContactBdd extends ConnexionBdd {
 		Contact contact							= null;	
 		/** Initialisation de la requete **/
 		String SQL		= "SELECT c.*, id.infoDetailLbl AS contactTypeLabel FROM Contact c "
-						+ "INNER JOIN  InfoDetail id ON c.contactType = id.infoDetailValueInt"
+						+ "INNER JOIN  InfoDetail id ON c.contactType = id.infoDetailValueInt "
 						+ "INNER JOIN InfoEntete ie ON id.infoEnteteIdt = ie.infoEnteteIdt WHERE ie.infoEnteteKey = ? AND c.contactType IN (?, ?)"
 						+ "ORDER BY c.contactName ASC, c.contactFirstName ASC";
 

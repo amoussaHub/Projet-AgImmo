@@ -2,6 +2,7 @@ package controller;
 
 import static bdd.AddressBdd.deleteAddress;
 import static bdd.BankDetailBdd.deleteBankDetail;
+import static bdd.CivilityBdd.deleteCivility;
 import static bdd.FenetresBdd.selectOneFenetre;
 import static bdd.LandlordBdd.deleteLandlord;
 import static bdd.LandlordBdd.selectAllLandlord;
@@ -41,7 +42,9 @@ public class LandlordManagementController extends GeneralManagementController {
 	@FXML private TableColumn<Landlord, String> tbcLandlordNom;
 	@FXML private TableColumn<Landlord, String> tbcLandlordPrenom;
 	@FXML private TableColumn<Landlord, String> tbcLandlordAdresse;
-	@FXML private TableColumn<Landlord, String> tbcLandlordVille;	
+	@FXML private TableColumn<Landlord, String> tbcLandlordVille;
+	
+	Landlord landlordSelected = null;
 
 	/**
 	 * Methode 	: initialize
@@ -67,10 +70,9 @@ public class LandlordManagementController extends GeneralManagementController {
 	 */
 	private void  trtAffichageDonnees() {
 		tbvDonnees.getItems().clear();
-		listeDonnees.clear();
+		/*listeDonnees.clear();*/
 		
 		if (listeDonnees.isEmpty()) listeDonnees = selectAllLandlord();
-		System.out.println(listeDonnees);
 		tbcLandlordCivility.setCellValueFactory(CellDataFeatures -> CellDataFeatures.getValue().getCivility().getCivilityLblProperty());
 		tbcLandlordNom.setCellValueFactory(CellDataFeatures -> CellDataFeatures.getValue().getPersonNameProperty());
 		tbcLandlordPrenom.setCellValueFactory(CellDataFeatures -> CellDataFeatures.getValue().getPersonFirstNameProperty());
@@ -89,6 +91,7 @@ public class LandlordManagementController extends GeneralManagementController {
 		// TODO Auto-generated method stub
 		listeDonnees = LandlordBdd.selectAllLandlordWithSelection(txfSelection.getText());
 		trtAffichageDonnees();
+		//listeDonnees.clear();
 	}
 	/**
 	 * Methode 	: evtOnMouseClickedBtnModifier
@@ -98,6 +101,22 @@ public class LandlordManagementController extends GeneralManagementController {
 	@Override
 	public void evtOnMouseClickedBtnModifier() {
 		// TODO Auto-generated method stub
+		try {
+			Stage primaryStage = new Stage();
+			Fenetres fenetre = selectOneFenetre(Cstes.LANDLORDDEFINITION);
+			
+			if(fenetre!=null) {
+				LoaderFXML loaderFxml = new LoaderFXML(fenetre);
+				primaryStage = loaderFxml.createLoaderBorderPane();
+				LandlordDefinitionController controller = loaderFxml.getLoader().getController();
+				controller.setDialogStage(primaryStage);
+				controller.setAction("update");
+				controller.setLandlord(landlordSelected);
+				primaryStage.show();
+			}   
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * Description 	: Methode abstraite devant etre obligatoirement initialisee dans la classe
@@ -106,6 +125,21 @@ public class LandlordManagementController extends GeneralManagementController {
 	@Override
 	public void evtOnMouseClickedBtnAjouter() {
 		// TODO Auto-generated method stub
+		try {
+			Stage primaryStage = new Stage();
+			Fenetres fenetre = selectOneFenetre(Cstes.LANDLORDDEFINITION);
+			
+			if(fenetre!=null) {
+				LoaderFXML loaderFxml = new LoaderFXML(fenetre);
+				primaryStage = loaderFxml.createLoaderBorderPane();
+				LandlordDefinitionController controller = loaderFxml.getLoader().getController();
+				controller.setDialogStage(primaryStage);
+				controller.setAction("create");
+				primaryStage.show();
+			}   
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * Description 	: Methode abstraite devant etre obligatoirement initialisee dans la classe
@@ -114,6 +148,15 @@ public class LandlordManagementController extends GeneralManagementController {
 	@Override
 	@FXML public void evtOnMouseClickedBtnSupprimer() {
 		// TODO Auto-generated method stub
+		DialogBox dialogBox = new DialogBox("Supression du propriétaire", "", "Voulez-vous vraiment supprimer le propriétaire " + landlordSelected.getPersonName() + " " + landlordSelected.getPersonFirstName()
+		, AlertType.CONFIRMATION, ButtonType.CANCEL);
+		ButtonType reponse = dialogBox.showDialogConfirmation();
+		if(reponse == ButtonType.OK) {
+			deleteLandlord(landlordSelected);
+			deleteAddress(landlordSelected.getLandlordAddressIdt());
+			deleteBankDetail(landlordSelected.getLandlordBankDetailIdt());
+			trtAffichageDonnees();
+		}	
 	}
 	/**
 	 * Description	: Methode gérant le double clic sur la liste, elle correspond à l'action Modifier.
@@ -122,6 +165,7 @@ public class LandlordManagementController extends GeneralManagementController {
 	@Override
 	@FXML public void evtOnMousePressedTbvDonnees(MouseEvent event) {
 		// TODO Auto-generated method stub
+		landlordSelected = tbvDonnees.getSelectionModel().getSelectedItem();
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 			evtOnMouseClickedBtnModifier();
 		}

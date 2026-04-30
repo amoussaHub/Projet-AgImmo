@@ -20,6 +20,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Agent;
+import model.Contact;
 import model.Fenetres;
 import model.InfoDetail;
 import model.LoaderFXML;
@@ -96,7 +97,23 @@ public class DashboardController {
 		lblMessageEtatsDesLieux.setText(messageEdl);
 	}
 	/** Choix de menu : ajout d'un nouveau propriétaire */
-	@FXML public void evtOnActionMnuNouveauProprietaire() {}
+	@FXML public void evtOnActionMnuNouveauProprietaire() {
+		try {
+			Stage primaryStage = new Stage();
+			Fenetres fenetre = selectOneFenetre(Cstes.LANDLORDDEFINITION);
+			
+			if(fenetre!=null) {
+				LoaderFXML loaderFxml = new LoaderFXML(fenetre);
+				primaryStage = loaderFxml.createLoaderBorderPane();
+				LandlordDefinitionController controller = loaderFxml.getLoader().getController();
+				controller.setDialogStage(primaryStage);
+				controller.setAction("create");
+				primaryStage.show();
+			}   
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 	/** Choix de menu : Liste des propriétaires existants */
 	@FXML public void evtOnActionMnuListeProprietaires() {
 		try {
@@ -195,6 +212,23 @@ public class DashboardController {
 				primaryStage = loaderFxml.createLoaderBorderPane();
 				CompanyManagementController controller = loaderFxml.getLoader().getController();
 				controller.setAgent(agent);
+				controller.setDialogStage(primaryStage);
+				primaryStage.show();
+			}   
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML public void evtOnActionMnuContact() {
+		try {
+			Stage primaryStage = new Stage();
+			Fenetres fenetre = selectOneFenetre(Cstes.CONTACTMANAGEMENT);
+			
+			if(fenetre!=null) {
+				LoaderFXML loaderFxml = new LoaderFXML(fenetre);
+				primaryStage = loaderFxml.createLoaderBorderPane();
+				ContactManagementController controller = loaderFxml.getLoader().getController();
 				controller.setDialogStage(primaryStage);
 				primaryStage.show();
 			}   

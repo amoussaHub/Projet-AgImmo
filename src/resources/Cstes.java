@@ -20,14 +20,14 @@ public class Cstes {
 	/** Entetes informations **/
 	public final static String 	DEFAULT					= "ValeursDefaut";
 	public final static String 	DOSSIERS				= "Dossiers";
-	public final static String CHIFFREMENT 				= "Chiffrement";
-	public final static String TYPECONTACT 				= "TypeContact";
+	public final static String  CHIFFREMENT 			= "Chiffrement";
+	public final static String  TYPECONTACT 			= "TypeContact";
 
 	/** Valeurs par défaut **/
-	public final static int 	DEFAULTCIVILITE			= 1;
+	public final static String 	DEFAULTCIVILITE			= "1";
 	public final static String 	NBRERREURSLOGIN 		= "NbreErreursConnexions";
 	public final static String 	DUREEBLQLOGIN 			= "DureeBlqLogin";
-	public final static String 	DEFAULTLEGALREGIME 		="legalRegime";
+	public final static String 	DEFAULTLEGALREGIME 		= "legalRegime";
 	
 	/** Dossiers **/
 	public final static String  DOSSIERPORTRAITS		= "Portraits";
@@ -47,12 +47,12 @@ public class Cstes {
 	public final static String  TYPEAGENT				= "TypeAgentAdmin";
 	public final static String 	AGENCESMANAGEMENT 		= "CompanyManagement";
 	public final static String 	AGENCEDEFINITION 		= "CompanyDefinition";
-	public final static String LANDLORDMANAGEMENT 		= "LandlordManagement";
-	public final static String LANDLORDDEFINITION 		= "LandlordDefinition";
-	public final static String CONTACTDEFINITION 		= "ContactDefinition";
-	public final static String CONTACTMANAGEMENT 		= "ContactManagement";
-	public final static String TOWNMANAGEMENT 			= "TownManagement";
-	public final static String TOWNDEFINITION 			= "TownDefinition";
+	public final static String  LANDLORDMANAGEMENT 		= "LandlordManagement";
+	public final static String  LANDLORDDEFINITION 		= "LandlordDefinition";
+	public final static String  CONTACTDEFINITION 		= "ContactDefinition";
+	public final static String  CONTACTMANAGEMENT 		= "ContactManagement";
+	public final static String  TOWNMANAGEMENT 			= "TownManagement";
+	public final static String  TOWNDEFINITION 			= "TownDefinition";
 	
 
 	/** Version de l'application **/

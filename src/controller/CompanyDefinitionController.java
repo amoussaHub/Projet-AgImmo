@@ -123,7 +123,6 @@ public class CompanyDefinitionController extends GeneralDefinitionController {
 		
 		/** initialisation du calendrier à la date du jour **/
 		dapCompanyCreationDate.setValue(LocalDate.now());
-		
 	}
 
 	@Override
