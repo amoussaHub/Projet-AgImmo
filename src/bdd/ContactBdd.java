@@ -17,6 +17,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Civility;
 import model.Contact;
+import model.InfoDetail;
+import resources.Cstes;
 
 /**
  * Cette classe contient les methodes CRUD de l'entite [Contact]. 
@@ -113,7 +115,9 @@ public class ContactBdd extends ConnexionBdd {
 			String		contactEmail		= resultset.getString("contactEmail");
 			int 		contactCivilite		= resultset.getInt("contactCivilite");
 			int			contactType			= resultset.getInt("contactType");
+			
 			String 		contactTypeLbl		= resultset.getString("contactType");
+			
 			String 		contactMessage		= resultset.getString("contactMessage");
 			LocalDate	contactDateDemande	= resultset.getObject("contactDateDemande", LocalDate.class);
 			

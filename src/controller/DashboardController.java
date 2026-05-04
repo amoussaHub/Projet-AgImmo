@@ -236,4 +236,21 @@ public class DashboardController {
 			e.printStackTrace();
 		}
 	}
+	
+	@FXML public void evtOnActionMnuVilles() {
+		try {
+			Stage primaryStage = new Stage();
+			Fenetres fenetre = selectOneFenetre(Cstes.TOWNMANAGEMENT);
+			
+			if(fenetre!=null) {
+				LoaderFXML loaderFxml = new LoaderFXML(fenetre);
+				primaryStage = loaderFxml.createLoaderBorderPane();
+				TownManagementController controller = loaderFxml.getLoader().getController();
+				controller.setDialogStage(primaryStage);
+				primaryStage.show();
+			}   
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 }

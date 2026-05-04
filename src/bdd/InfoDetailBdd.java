@@ -80,13 +80,13 @@ public class InfoDetailBdd extends ConnexionBdd {
 		ObservableList<InfoDetail> listeDonnees = FXCollections.observableArrayList();
 		InfoDetail infoDetail 				  	= null;
 		/** Initialisation de la requête **/
-		String SQL		= "SELECT * FROM InfoDetail...";
+		String SQL		= "SELECT InfoDetail.* FROM InfoDetail, InfoEntete WHERE InfoDetail.infoEnteteIdt = InfoEntete.infoEnteteIdt AND infoEnteteKey = ?";
 		/** Connexion à la base de données **/
 		Connection connexion = trtConnexionBdd();
 		/** Traitements SQL */
 		try {
-			Statement statement  = connexion.createStatement();
-			ResultSet resultSet  = statement.executeQuery(SQL);
+			PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, cbxName);
+			ResultSet resultSet   				= preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				infoDetail = map(resultSet);
 				if(infoDetail!=null) listeDonnees.add(infoDetail);
@@ -99,7 +99,7 @@ public class InfoDetailBdd extends ConnexionBdd {
 			class Dummy {};
 			String methodeName 	= Dummy.class.getEnclosingMethod().getName();
 			gestionDesExceptionsStates(e, SQL, classeName, methodeName);
-		}
+		}		
 		return listeDonnees;			
 	}
 	/** *********************************************************************************

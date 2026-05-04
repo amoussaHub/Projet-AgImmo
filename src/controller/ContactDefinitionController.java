@@ -11,8 +11,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import model.Contact;
 import model.InfoDetail;
+import resources.Cstes;
 import model.Civility;
 import static interfaces.GestionCbxInfos.initCbx;
+
+import bdd.CivilityBdd;
+import bdd.InfoDetailBdd;
+import interfaces.GestionCbxDefault;
 
 public class ContactDefinitionController extends GeneralDefinitionController {
 	/** Declaration des variables **/
@@ -38,6 +43,13 @@ public class ContactDefinitionController extends GeneralDefinitionController {
 	 */
 	@Override
 	@FXML public void initialize() {
+		lblTitre.setText("Visualisation d'un contact");
+		btnValider.setVisible(false);
+		
+		GestionCbxDefault.gestionCbxCivility(cbxCivility);
+		
+		listeTypeContact = InfoDetailBdd.selectAllInfoDetailForCbx(Cstes.TYPECONTACT);
+		cbxContactType.getItems().addAll(listeTypeContact);
 	}
 	/**
 	 * Description 	: Cette methode appelee lors de la creation du FXMLLoader permet d'afficher
@@ -46,6 +58,17 @@ public class ContactDefinitionController extends GeneralDefinitionController {
 	 */
 	public void setContact(Contact contact) {
 		this.contact = contact;
+		
+		cbxCivility.getSelectionModel().select(contact.getContactCivilite());
+		cbxContactType.getSelectionModel().select(contact.getContactType());
+		
+		txfContactIdt.setText(String.valueOf(contact.getContactIdt()));
+		txfContactName.setText(contact.getContactName());
+		txfContactFirstName.setText(contact.getContactFirstName());
+		txfContactMobile.setText(contact.getContactMobile());
+		txfContactEmail.setText(contact.getContactEmail());
+		txaContactMessage.setText(contact.getContactMessage());
+		dpiDateDemande.setValue(contact.getContactDateDemande());
 	}
 	
 	@Override

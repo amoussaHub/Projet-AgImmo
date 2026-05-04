@@ -144,7 +144,7 @@ public class LandlordBdd extends ConnexionBdd {
 		/** Initialisation des variables **/
 		int nbreEnreg = 0;
 		/** Initialisation de la requete **/
-		String SQL		= "UPDATE Landlord SET landlordName = ?, landlordFirstName = ?, landlordMobile = ?, landlordPhone = ?, landlordEmail = ?, landlordCivility = ?, landlordLegalRegimeIdt = ?, landlordAddressIdt = ?, landlordBankDetailIdt = ?, landlordPrivateData = ?"
+		String SQL		= "UPDATE Landlord SET landlordName = ?, landlordFirstName = ?, landlordMobile = ?, landlordPhone = ?, landlordEmail = ?, landlordCivility = ?, landlordLegalRegimeIdt = ?, landlordAddressIdt = ?, landlordBankDetailIdt = ?, landlordPrivateData = ? "
 						+ "WHERE landlordIdt = ?";
 		/** Connexion a la base de donnees **/
 		Connection connexion = trtConnexionBdd();
@@ -205,7 +205,7 @@ public class LandlordBdd extends ConnexionBdd {
 		/** Initialisation des variables **/
 		Landlord landlord							= null;
 		try {
-/** Initialisation des variables **/
+			/** Initialisation des variables **/
 			
 			int 		personIdt        		= resultset.getInt("landlordIdt");
 	        String 		personName       		= resultset.getString("landlordName");

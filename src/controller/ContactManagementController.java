@@ -39,10 +39,11 @@ public class ContactManagementController extends GeneralManagementController {
 
 	@Override
 	public void initialize() {
+		lblTitre.setText("Gestion des contacts");
+		btnModifier.setText("Visualiser");
+		
 		topLandlord = isChkSelectedInt(chkSelectionProprietaire, 1);
 		topTenant 	= isChkSelectedInt(chkSelectionLocataires, 2);
-		
-		btnModifier.setText("Visualiser");
 		
 		trtAffichageDonnees();
 		
@@ -79,7 +80,6 @@ public class ContactManagementController extends GeneralManagementController {
 
 	@Override
 	public void evtOnMouseClickedBtnModifier() {
-		if (!contactSelected.toString().isEmpty()) {
 			try {
 				Stage primaryStage = new Stage();
 				Fenetres fenetre = selectOneFenetre(Cstes.CONTACTDEFINITION);
@@ -95,25 +95,30 @@ public class ContactManagementController extends GeneralManagementController {
 			} catch (Exception e){
 				e.printStackTrace();
 			}
-		}
 	}
 
 	@Override
 	public void evtOnMouseClickedBtnAjouter() {
-		try {
-			Stage primaryStage = new Stage();
-			Fenetres fenetre = selectOneFenetre(Cstes.LANDLORDDEFINITION);
-			
-			if(fenetre!=null) {
-				LoaderFXML loaderFxml = new LoaderFXML(fenetre);
-				primaryStage = loaderFxml.createLoaderBorderPane();
-				LandlordDefinitionController controller = loaderFxml.getLoader().getController();
-				controller.setDialogStage(primaryStage);
-				controller.setAction("contact");
-				primaryStage.show();
-			}   
-		} catch (Exception e){
-			e.printStackTrace();
+		if (contactSelected != null) {
+			try {
+				Stage primaryStage = new Stage();
+				Fenetres fenetre = selectOneFenetre(Cstes.LANDLORDDEFINITION);
+				
+				if(fenetre!=null) {
+					LoaderFXML loaderFxml = new LoaderFXML(fenetre);
+					primaryStage = loaderFxml.createLoaderBorderPane();
+					LandlordDefinitionController controller = loaderFxml.getLoader().getController();
+					controller.setDialogStage(primaryStage);
+					controller.setContact(contactSelected);
+					controller.setAction("Contact");
+					primaryStage.show();
+				}   
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+		} else {
+			DialogBox dialogBox = new DialogBox("Supression du Contact", "", "Veuillez séléctionner un contact", AlertType.CONFIRMATION, ButtonType.CANCEL);
+			ButtonType reponse = dialogBox.showDialogConfirmation();
 		}
 	}
 

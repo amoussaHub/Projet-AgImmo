@@ -54,9 +54,11 @@ notes lot 2 :
 	
 notes lot 4 :
 
-Demander si il faut ajouter une méthode "selectOneCompany" et une autre "IsAgentAttached".
-Demander de l'aide pour la requête "selectAllContactWithSelection"
-continuer les fichiers : townBdd, LandlordBdd, ContactBdd...
+-- Demander si il faut ajouter une méthode "selectOneCompany" et une autre "IsAgentAttached".
+-- Demander de l'aide pour la requête "selectAllContactWithSelection"
+-- continuer les fichiers : townBdd, LandlordBdd, ContactBdd...
+résoudre problème contactTypeLbl
+résoudre problème dans contactManagementController (lié au cbx)
 
 -requête lot 4
 	INSERT INTO InfoEntete(infoEnteteKey, infoEnteteDescription, infoEnteteCbx, infoEnteteNbreDetailMax)
@@ -88,3 +90,9 @@ continuer les fichiers : townBdd, LandlordBdd, ContactBdd...
 
 	INSERT INTO InfoDetail(infoEnteteIdt, infoDetailKeyIdt, infoDetailDescription, infoDetailLbl, infoDetailLbc, infoDetailValueInt, infoDetailValueDouble, infoDetailTri, infoDetailDefault)
 	VALUES(8, 17, 'Bic', 'Longeur Bic', '', 11, 0, 6, 0);
+	
+	INSERT INTO Fenetres(fenetreKey, fenetreLocation, fenetreStyleSheet, fenetreStageTitle, fenetreStageIcone, fenetreLoaderMsgErreur)
+	VALUES('TownManagement', '/views/TownManagement.fxml', '/style/application.css', 'Ag''immo - Administration des villes', 'file:src/images/towns.png', 'Erreur d''appel de la fenêtre d''administration des villes');
+	
+	INSERT INTO Fenetres(fenetreKey, fenetreLocation, fenetreStyleSheet, fenetreStageTitle, fenetreStageIcone, fenetreLoaderMsgErreur)
+	VALUES('TownDefinition', '/views/TownDefinition.fxml', '/style/application.css', 'Ag''immo - Définition d''une ville', 'file:src/images/towns.png', 'Erreur d''appel de la fenêtre de définition des villes');

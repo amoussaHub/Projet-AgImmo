@@ -34,6 +34,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -66,6 +67,7 @@ public class LandlordDefinitionController extends GeneralDefinitionController im
 	private Contact contact							= null;
 	private BankDetail bankDetail					= null;
 	private Address address							= null;
+	private boolean validerClicked 					= false;	
 	/** controles de la fenetre **/
 	@FXML TextField				txfPersonIdt;
 	@FXML TextField				txfPersonName;
@@ -112,14 +114,10 @@ public class LandlordDefinitionController extends GeneralDefinitionController im
 		/** Remplissage de la combobox Civilite et initialisation avec la valeur par defaut
 		 * definie dans la table informations
 		 **/
-		listeCivilite = CivilityBdd.selectAllCivility();
-		cbxCivility.getItems().addAll(listeCivilite);
 		GestionCbxDefault.gestionCbxCivility(cbxCivility);
 		/** Remplissage de la combobox sur les Regimes juridiques et initialisation avec la valeur par defaut
 		 * definie dans la table informations
 		 **/ 
-		listeLegalRegimes = LegalRegimeBdd.selectAllLegalRegime();
-		cbxLandlordLegalRegimeIdt.getItems().addAll(listeLegalRegimes);
 		GestionCbxDefault.gestionCbxLegalRegime(cbxLandlordLegalRegimeIdt);
 		/** Remplissage de la combobox sur les villes **/
 		listeTown = selectAllTown();
@@ -162,8 +160,8 @@ public class LandlordDefinitionController extends GeneralDefinitionController im
 			}
 		});
 		/** Infos-bulles sur les zones **/
-		String infoPortablePhone 		= "Le format doit être le suivant : XX-XX-XX-XX-XX ";
-		String infoEmail				= "l'addresse email doit avoir le format suivant : XXXXXXX@YYYY.ZZZ";
+		String infoPortablePhone 			= "Le format doit être le suivant : XX-XX-XX-XX-XX ";
+		String infoEmail					= "l'addresse email doit avoir le format suivant : XXXXXXX@YYYY.ZZZ";
 		String infoBankDetailCode			= "Le code banque doit faire 5 caractères de long et ne contenir que des chiffres";
 		String infoBankDetailWicketCode		= "Le code guichet doit faire caractères de long et ne contenir que des chiffres";
 		String infoBankDetailAccountNumber 	= "Le numéro de compte doit faire 11 caractères de long";
@@ -210,8 +208,8 @@ public class LandlordDefinitionController extends GeneralDefinitionController im
 			cbxLandlordLegalRegimeIdt.getSelectionModel().select(landlord.getLandlordLegalRegimeIdt());
 			cbxAddressTown.getSelectionModel().select(TownBdd.selectOneTown(landlord.getAddress().getAddressTownIdt()));
 			
-			Address address = AddressBdd.selectOneAdresse(landlord.getLandlordAddressIdt());
-			BankDetail bankDetail = BankDetailBdd.selectOneBankDetail(landlord.getLandlordBankDetailIdt());
+			address = AddressBdd.selectOneAdresse(landlord.getLandlordAddressIdt());
+			bankDetail = BankDetailBdd.selectOneBankDetail(landlord.getLandlordBankDetailIdt());
 			
 			txfPersonIdt.setText(String.valueOf(landlord.getPersonIdt()));
 			txfPersonName.setText(landlord.getPersonName());
@@ -227,12 +225,12 @@ public class LandlordDefinitionController extends GeneralDefinitionController im
 			txfAddressNext.setText(address.getAddressNext());
 			
 			txfBankDetailCode.setText(bankDetail.getBankDetailCode());
-			txfBankDetailCode.setText(bankDetail.getBankDetailWicketCode());
-			txfBankDetailCode.setText(bankDetail.getBankDetailAccountNumber());
-			txfBankDetailCode.setText(bankDetail.getBankDetailRibKey());
-			txfBankDetailCode.setText(bankDetail.getBankDetailDomiciliation());
-			txfBankDetailCode.setText(bankDetail.getBankDetailBic());
-			txfBankDetailCode.setText(bankDetail.getBankDetailHolder());
+			txfBankDetailWicketCode.setText(bankDetail.getBankDetailWicketCode());
+			txfBankDetailAccountNumber.setText(bankDetail.getBankDetailAccountNumber());
+			txfBankDetailRibKey.setText(bankDetail.getBankDetailRibKey());
+			txfBankDetailDomiciliation.setText(bankDetail.getBankDetailDomiciliation());
+			txfBankDetailBic.setText(bankDetail.getBankDetailBic());
+			txfBankDetailHolder.setText(bankDetail.getBankDetailHolder());
 			break;
 		case "Contact": 
 			lblTitre.setText("Conversion d'un contact en proprietaire");
@@ -255,26 +253,35 @@ public class LandlordDefinitionController extends GeneralDefinitionController im
 	@Override
 	public void evtOnMouseClickedBtnValider() {
 		/** Initialisation des variables **/
-		String messageErreur = "Les zones marquées d’un * sont obligatoires :" + Cstes.CR;
+		final String MESSAGEERREURTITLE = "Les zones marquées d’un * sont obligatoires :" + Cstes.CR;
+		String messageErreur = MESSAGEERREURTITLE;
 		
 		/** controle des zones obligatoires **/
 		if (isTextFieldEmpty(txfPersonMobile) || !validatePhoneNumber(txfPersonMobile)) {
 			messageErreur += "- Portable (le format doit être : XX-XX-XX-XX-XX)" + Cstes.CR;
-		} else if (isTextFieldEmpty(txfPersonPhone)) {
+		} 
+		if (isTextFieldEmpty(txfPersonPhone)) {
 			messageErreur += "- Téléphone (le format doit être : XX-XX-XX-XX-XX)" + Cstes.CR;
-		} else if (isTextFieldEmpty(txfPersonEmail) || isEmailAdress(txfPersonEmail)) {
+		} 
+		if (isTextFieldEmpty(txfPersonEmail) || !isEmailAdress(txfPersonEmail)) {
 			messageErreur += "- Email (le format doit être : XXXXXXX@YYYY.ZZZ)" + Cstes.CR;
-		} else if (isTextFieldEmpty(txfBankDetailCode) || !isTextFieldLongueur(txfBankDetailCode, 5) || !isTextFieldNumeric(txfBankDetailCode)) {
+		} 
+		if (isTextFieldEmpty(txfBankDetailCode) || !isTextFieldLongueur(txfBankDetailCode, 5) || !isTextFieldNumeric(txfBankDetailCode)) {
 			messageErreur += "- Code banque (le code banque doit faire 5 caractères de type numérique)" + Cstes.CR;
-		} else if (isTextFieldEmpty(txfBankDetailWicketCode) || !isTextFieldLongueur(txfBankDetailWicketCode, 5) || !isTextFieldNumeric(txfBankDetailWicketCode)) {
+		} 
+		if (isTextFieldEmpty(txfBankDetailWicketCode) || !isTextFieldLongueur(txfBankDetailWicketCode, 5) || !isTextFieldNumeric(txfBankDetailWicketCode)) {
 			messageErreur += "- Code guichet (le code guichet doit faire 5 caractères de type numérique)" + Cstes.CR;
-		} else if (isTextFieldEmpty(txfBankDetailAccountNumber) || !isTextFieldLongueur(txfBankDetailAccountNumber, 11)) {
+		} 
+		if (isTextFieldEmpty(txfBankDetailAccountNumber) || !isTextFieldLongueur(txfBankDetailAccountNumber, 11)) {
 			messageErreur += "- Numéro de compte (le numéro de compte doit faire 11 caractères)" + Cstes.CR;
-		} else if (isTextFieldEmpty(txfBankDetailRibKey) || !isTextFieldLongueur(txfBankDetailRibKey, 2) || !isTextFieldNumeric(txfBankDetailRibKey)) {
+		} 
+		if (isTextFieldEmpty(txfBankDetailRibKey) || !isTextFieldLongueur(txfBankDetailRibKey, 2) || !isTextFieldNumeric(txfBankDetailRibKey)) {
 			messageErreur += "- Clé RIB (la clé RIB doit faire 2 caractères de type numérique)" + Cstes.CR;
-		} else if (isTextFieldEmpty(txfBankDetailBic) || !isTextFieldLongueur(txfBankDetailBic, 11)) {
+		} 
+		if (isTextFieldEmpty(txfBankDetailBic) || !isTextFieldLongueur(txfBankDetailBic, 11)) {
 			messageErreur += "- BIC (le BIC doit faire 11 caractères)" + Cstes.CR;
-		} else {
+		} 
+		if (messageErreur.equals(MESSAGEERREURTITLE)) {
 			messageErreur = "";
 		}
 		
@@ -284,8 +291,8 @@ public class LandlordDefinitionController extends GeneralDefinitionController im
 			
 			int civilityIdt = cbxCivility.getValue().getCivilityIdt();
 			int legalRegimeIdt = cbxLandlordLegalRegimeIdt.getValue().getLegalRegimeIdt(); 
-			int addressIdt = selectOneAdresseByKey(key);
-			int bankDetailIdt = selectOneBankDetailByKey(key);
+			//int addressIdt = selectOneAdresseByKey(key);
+			//int bankDetailIdt = selectOneBankDetailByKey(key);
 			
 			if(codeAction.equals("create") || codeAction.equals("Contact")) {
 				address = new Address();
@@ -318,6 +325,9 @@ public class LandlordDefinitionController extends GeneralDefinitionController im
 				insertBankDetail(bankDetail);
 				
 				/** Création du Landlord **/
+				int addressIdt = selectOneAdresseByKey(key);
+				int bankDetailIdt = selectOneBankDetailByKey(key);
+				
 				landlord.setPersonName(txfPersonName.getText());
 				landlord.setPersonFirstName(txfPersonFirstName.getText());
 				landlord.setPersonMobile(txfPersonMobile.getText());
@@ -360,6 +370,9 @@ public class LandlordDefinitionController extends GeneralDefinitionController im
 				updateBankDetail(bankDetail);
 				
 				/** Modification du Landlord **/
+				int addressIdt = selectOneAdresseByKey(key);
+				int bankDetailIdt = selectOneBankDetailByKey(key);
+				
 				landlord.setPersonName(txfPersonName.getText());
 				landlord.setPersonFirstName(txfPersonFirstName.getText());
 				landlord.setPersonMobile(txfPersonMobile.getText());
@@ -378,6 +391,11 @@ public class LandlordDefinitionController extends GeneralDefinitionController im
 				
 				updateLandlord(landlord);
 			}
+			validerClicked = true;
+			this.dialogStage.close();
+		} else {
+			DialogBox dialogBox = new DialogBox("Supression du propriétaire", "", messageErreur, AlertType.CONFIRMATION, ButtonType.CANCEL);
+			ButtonType reponse = dialogBox.showDialogConfirmation();
 		}
 		
 	}    
@@ -388,4 +406,14 @@ public class LandlordDefinitionController extends GeneralDefinitionController im
 	public void evtOnActionCbxAddressTown() {
 		txfTownPostCode.setText(cbxAddressTown.getSelectionModel().getSelectedItem().getTownPostCode());
 	}
+	
+	/**
+	 * Description 	: Cette Methode renvoie la valeur de l'attribut [validerClicked]
+	 *							  permettant a l'ecran appelant de savoir si le bouton [Valider]
+	 *							  a ete clique
+	 * @return	boolean
+	 */
+	public boolean isValiderClicked() {
+		return validerClicked;
+	}   
 }

@@ -1,5 +1,6 @@
 package controller;
 
+import static bdd.ContactBdd.deleteContact;
 import static bdd.FenetresBdd.selectOneFenetre;
 import static bdd.TownBdd.deleteTown;
 import static bdd.TownBdd.selectAllTown;
@@ -38,6 +39,9 @@ public class TownManagementController extends GeneralManagementController {
 	@FXML private TreeTableView<Town> 			ttvVilles;
 	@FXML private TreeTableColumn<Town, String> ttcVille;
 	@FXML private TreeTableColumn<Town, String> ttcCodePostal;
+	
+	Town townSelected = null;
+	
 
 
 
@@ -50,8 +54,16 @@ public class TownManagementController extends GeneralManagementController {
 	public void initialize() {	
 		/** Initialisation du titre **/
 		lblTitre.setText("Gestion des villes");
+		
+		townList = selectAllTown();
 		/** Remplissage de la treeTableView **/
 		trtAffichageDonnees();
+		
+		if (townList.isEmpty()) {
+			btnAjouter.setDisable(true);
+			btnModifier.setDisable(true);
+			btnSupprimer.setDisable(true);
+		}
 	}
 	/**
 	 * Methode 	: trtAffichageDonnees
@@ -132,6 +144,12 @@ public class TownManagementController extends GeneralManagementController {
 	 */
 	@Override
 	@FXML public void evtOnMouseClickedBtnSupprimer() {
+		DialogBox dialogBox = new DialogBox("Supression d'une ville", "", "Voulez-vous vraiment supprimer la ville "  	, AlertType.CONFIRMATION, ButtonType.CANCEL);
+		ButtonType reponse = dialogBox.showDialogConfirmation();
+		if(reponse == ButtonType.OK) {
+			//deleteContact(contactSelected);
+			trtAffichageDonnees();
+		}	
 	}
 	/**
 	 * Description	: Methode gérant le double clic sur la liste, elle correspond à l'action Modifier.

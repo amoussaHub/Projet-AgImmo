@@ -110,9 +110,12 @@ public class LandlordManagementController extends GeneralManagementController {
 				primaryStage = loaderFxml.createLoaderBorderPane();
 				LandlordDefinitionController controller = loaderFxml.getLoader().getController();
 				controller.setDialogStage(primaryStage);
-				controller.setAction("update");
 				controller.setLandlord(landlordSelected);
-				primaryStage.show();
+				controller.setAction("update");
+				primaryStage.showAndWait();
+				if (controller.isValiderClicked()) {
+					trtAffichageDonnees();
+				}
 			}   
 		} catch (Exception e){
 			e.printStackTrace();
@@ -135,7 +138,10 @@ public class LandlordManagementController extends GeneralManagementController {
 				LandlordDefinitionController controller = loaderFxml.getLoader().getController();
 				controller.setDialogStage(primaryStage);
 				controller.setAction("create");
-				primaryStage.show();
+				primaryStage.showAndWait();
+				if (controller.isValiderClicked()) {
+					trtAffichageDonnees();
+				}
 			}   
 		} catch (Exception e){
 			e.printStackTrace();
