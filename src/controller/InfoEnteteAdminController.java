@@ -201,6 +201,11 @@ public class InfoEnteteAdminController extends AdministrationManagementControlle
 		retraitErreurs(txfInfoEnteteDescription);
 		if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
 			infoEnteteSelected = tbvDonnees.getSelectionModel().getSelectedItem();
+			
+			int nbreDeLignesDetail = selectNbreInfoDetail(infoEnteteSelected.getInfoEnteteIdt());
+			boolean affichage	= (nbreDeLignesDetail>0);
+			lblTotalLignesDetail.setText("Nombre de ligne(s) de détail : " + nbreDeLignesDetail);
+			lblMessage.setVisible(affichage);
 
 			if(infoEnteteSelected != null) {
 				trtAffichageZones(infoEnteteSelected);
@@ -225,11 +230,6 @@ public class InfoEnteteAdminController extends AdministrationManagementControlle
 			controler.setDialogStage(primaryStage);
 			controler.setInfoEntete(infoEnteteSelected);
 			primaryStage.showAndWait();
-			int nbreDeLignesDetail = selectNbreInfoDetail(infoEnteteSelected.getInfoEnteteIdt());
-			boolean affichage	= (nbreDeLignesDetail>0);
-			lblTotalLignesDetail.setText("Nombre de ligne(s) de détail : " + nbreDeLignesDetail);
-			lblMessage.setVisible(affichage);
-			gestionBtn(true, false, affichage);
 		}
 	}
 	/**

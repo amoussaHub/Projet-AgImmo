@@ -131,10 +131,7 @@ public class TownBdd extends ConnexionBdd {
 			/** Traitements SQL */
 			try {
 				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, town.getTownName(), town.getTownPostCode());
-				ResultSet resultSet   				= preparedStatement.executeQuery();
-				while (resultSet.next()) {
-					town = map(resultSet);
-				}	
+				nbreEnreg							= preparedStatement.executeUpdate();
 			} catch (SQLException e) {
 				/**
 				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
@@ -163,10 +160,7 @@ public class TownBdd extends ConnexionBdd {
 			/** Traitements SQL */
 			try {
 				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, town.getTownName(), town.getTownPostCode(), town.getTownIdt());
-				ResultSet resultSet   				= preparedStatement.executeQuery();
-				while (resultSet.next()) {
-					town = map(resultSet);
-				}	
+				nbreEnreg							= preparedStatement.executeUpdate();
 			} catch (SQLException e) {
 				/**
 				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
@@ -194,11 +188,8 @@ public class TownBdd extends ConnexionBdd {
 		if(connexion!=null) {
 			/** Traitements SQL */
 			try {
-				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false, town.getTownIdt());
-				ResultSet resultSet   				= preparedStatement.executeQuery();
-				while (resultSet.next()) {
-					town = map(resultSet);
-				}	
+				PreparedStatement preparedStatement = initialisationRequete(connexion, SQL, false,  town.getTownIdt());
+				nbreEnreg							= preparedStatement.executeUpdate();
 			} catch (SQLException e) {
 				/**
 				 * L'utilisation de Class.getEnclosingMethod() de la classe Dummy (classe interne anonyme) renvoie un objet 
@@ -207,7 +198,7 @@ public class TownBdd extends ConnexionBdd {
 				class Dummy {};
 				String methodeName 	= Dummy.class.getEnclosingMethod().getName();
 				gestionDesExceptionsStates(e, SQL, classeName, methodeName);
-			}		
+			}
 		}
 		return nbreEnreg;
 	}

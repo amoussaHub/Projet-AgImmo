@@ -117,7 +117,7 @@ public class ContactManagementController extends GeneralManagementController {
 				e.printStackTrace();
 			}
 		} else {
-			DialogBox dialogBox = new DialogBox("Supression du Contact", "", "Veuillez séléctionner un contact", AlertType.CONFIRMATION, ButtonType.CANCEL);
+			DialogBox dialogBox = new DialogBox("Création d'un propriétaire", "", "Veuillez séléctionner un contact", AlertType.CONFIRMATION, ButtonType.CANCEL);
 			ButtonType reponse = dialogBox.showDialogConfirmation();
 		}
 	}

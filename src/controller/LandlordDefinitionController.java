@@ -291,8 +291,6 @@ public class LandlordDefinitionController extends GeneralDefinitionController im
 			
 			int civilityIdt = cbxCivility.getValue().getCivilityIdt();
 			int legalRegimeIdt = cbxLandlordLegalRegimeIdt.getValue().getLegalRegimeIdt(); 
-			//int addressIdt = selectOneAdresseByKey(key);
-			//int bankDetailIdt = selectOneBankDetailByKey(key);
 			
 			if(codeAction.equals("create") || codeAction.equals("Contact")) {
 				address = new Address();
@@ -394,7 +392,7 @@ public class LandlordDefinitionController extends GeneralDefinitionController im
 			validerClicked = true;
 			this.dialogStage.close();
 		} else {
-			DialogBox dialogBox = new DialogBox("Supression du propriétaire", "", messageErreur, AlertType.CONFIRMATION, ButtonType.CANCEL);
+			DialogBox dialogBox = new DialogBox("Gestion du propriétaire", "", messageErreur, AlertType.CONFIRMATION, ButtonType.CANCEL);
 			ButtonType reponse = dialogBox.showDialogConfirmation();
 		}
 		

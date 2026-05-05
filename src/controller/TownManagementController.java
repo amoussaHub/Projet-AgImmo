@@ -9,6 +9,7 @@ import static bdd.TownBdd.selectTownUsed;
 import java.util.Map;
 import java.util.TreeMap;
 
+import bdd.TownBdd;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -40,6 +41,7 @@ public class TownManagementController extends GeneralManagementController {
 	@FXML private TreeTableColumn<Town, String> ttcVille;
 	@FXML private TreeTableColumn<Town, String> ttcCodePostal;
 	
+	TreeItem <Town> groupLetter = null;
 	Town townSelected = null;
 	
 
@@ -130,6 +132,30 @@ public class TownManagementController extends GeneralManagementController {
 	 */
 	@Override
 	public void evtOnMouseClickedBtnModifier() {
+		if (townSelected != null) {
+			try {
+				Stage primaryStage = new Stage();
+				Fenetres fenetre = selectOneFenetre(Cstes.TOWNDEFINITION);
+				
+				if(fenetre!=null) {
+					LoaderFXML loaderFxml = new LoaderFXML(fenetre);
+					primaryStage = loaderFxml.createLoaderBorderPane();
+					TownDefinitionController controller = loaderFxml.getLoader().getController();
+					controller.setDialogStage(primaryStage);
+					controller.setTown(townSelected);
+					controller.setAction("update");
+					primaryStage.showAndWait();
+					if (controller.isValiderClicked()) {
+						trtAffichageDonnees();
+					}
+				}   
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+		} else {
+			DialogBox dialogBox = new DialogBox("Modification d'une ville", "", "Veuillez séléctionner une ville", AlertType.CONFIRMATION, ButtonType.CANCEL);
+			ButtonType reponse = dialogBox.showDialogConfirmation();
+		}
 	}
 	/**
 	 * Description 	: Methode abstraite devant etre obligatoirement initialisee dans la classe
@@ -137,6 +163,24 @@ public class TownManagementController extends GeneralManagementController {
 	 */
 	@Override
 	public void evtOnMouseClickedBtnAjouter() {
+		try {
+			Stage primaryStage = new Stage();
+			Fenetres fenetre = selectOneFenetre(Cstes.TOWNDEFINITION);
+			
+			if(fenetre!=null) {
+				LoaderFXML loaderFxml = new LoaderFXML(fenetre);
+				primaryStage = loaderFxml.createLoaderBorderPane();
+				TownDefinitionController controller = loaderFxml.getLoader().getController();
+				controller.setDialogStage(primaryStage);
+				controller.setAction("create");
+				primaryStage.showAndWait();
+				if (controller.isValiderClicked()) {
+					trtAffichageDonnees();
+				}
+			}   
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * Description 	: Methode abstraite devant etre obligatoirement initialisee dans la classe
@@ -144,10 +188,10 @@ public class TownManagementController extends GeneralManagementController {
 	 */
 	@Override
 	@FXML public void evtOnMouseClickedBtnSupprimer() {
-		DialogBox dialogBox = new DialogBox("Supression d'une ville", "", "Voulez-vous vraiment supprimer la ville "  	, AlertType.CONFIRMATION, ButtonType.CANCEL);
+		DialogBox dialogBox = new DialogBox("Supression d'une ville", "", "Voulez-vous vraiment supprimer la ville " + townSelected, AlertType.CONFIRMATION, ButtonType.CANCEL);
 		ButtonType reponse = dialogBox.showDialogConfirmation();
 		if(reponse == ButtonType.OK) {
-			//deleteContact(contactSelected);
+			deleteTown(townSelected);
 			trtAffichageDonnees();
 		}	
 	}
@@ -158,6 +202,10 @@ public class TownManagementController extends GeneralManagementController {
 	@Override
 	@FXML public void evtOnMousePressedTbvDonnees(MouseEvent event) {
 		// TODO Auto-generated method stub
+		groupLetter = ttvVilles.getSelectionModel().getSelectedItem();
+		if (groupLetter != null) {
+			townSelected = groupLetter.getValue();
+		}
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 			evtOnMouseClickedBtnModifier();
 		}
