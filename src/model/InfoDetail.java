@@ -196,12 +196,16 @@ public class InfoDetail {
 	}
 	@Override
 	public String toString() {
+		return infoDetailLbl;
+	}
+	/*@Override
+	public String toString() {
 		return "InfoDetail [infoDetailIdt=" + infoDetailIdt + ", infoEnteteIdt=" + infoEnteteIdt + ", infoDetailKeyIdt="
 				+ infoDetailKeyIdt + ", infoDetailDescription=" + infoDetailDescription + ", infoDetailLbl="
 				+ infoDetailLbl + ", infoDetailLbc=" + infoDetailLbc + ", infoDetailValueInt=" + infoDetailValueInt
 				+ ", infoDetailValueDouble=" + infoDetailValueDouble + ", infoDetailTri=" + infoDetailTri
 				+ ", infoDetailDefault=" + infoDetailDefault + ", infoEntete=" + infoEntete + "]";
-	}
+	}*/
 	
 	
 

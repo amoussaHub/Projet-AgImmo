@@ -74,8 +74,8 @@ public class Contact {
 		return contactName;
 	}
 	public StringProperty getContactNameProperty() { 
-		   return new SimpleStringProperty(contactName);
-		}
+		return new SimpleStringProperty(contactName);
+	}
 	/**
 	 * @return the contactFirstName
 	 */
@@ -83,8 +83,8 @@ public class Contact {
 		return contactFirstName;
 	}
 	public StringProperty getContactFirstNameProperty() { 
-		   return new SimpleStringProperty(contactFirstName);
-		}
+		return new SimpleStringProperty(contactFirstName);
+	}
 	/**
 	 * @return the contactMobile
 	 */
@@ -122,8 +122,8 @@ public class Contact {
 		return contactTypeLbl;
 	}
 	public StringProperty getContactTypeLblProperty() { 
-		   return new SimpleStringProperty(contactTypeLbl);
-		}
+		return new SimpleStringProperty(contactTypeLbl);
+	}
 	/**
 	 * @return the contactMessage
 	 */
@@ -131,8 +131,8 @@ public class Contact {
 		return contactMessage;
 	}
 	public StringProperty getContactMessageProperty() { 
-		   return new SimpleStringProperty(contactMessage);
-		}
+		return new SimpleStringProperty(contactMessage);
+	}
 	/**
 	 * @return the contactDateDemande
 	 */
