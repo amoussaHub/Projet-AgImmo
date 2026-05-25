@@ -222,16 +222,17 @@ public class InfoEnteteAdminController extends AdministrationManagementControlle
 		}
 	}
 	@FXML private void evtOnMouseClickedImvInfoEnteteDetail() {
-		Fenetres fenetre	  = selectOneFenetre(Cstes.ENTETEINFO);
+		Fenetres fenetre	  = selectOneFenetre(Cstes.DETAILINFO);
 		if(fenetre!=null) {
 			LoaderFXML loaderFxml 					= new LoaderFXML(fenetre);
 			Stage primaryStage 	  					= loaderFxml.createLoaderBorderPane();
-			InfoEnteteAdminController controler 	= loaderFxml.getLoader().getController();
+			InfoDetailAdminController controler 	= loaderFxml.getLoader().getController();
 			controler.setDialogStage(primaryStage);
-			//controler.setInfoEntete(infoEnteteSelected);
+			controler.setInfoEntete(infoEnteteSelected);
 			primaryStage.showAndWait();
 		}
 	}
+	
 	/**
 	 * Méthode permettant de gérer l'activité des boutons
 	 * @param ajouter	[boolean]

@@ -43,7 +43,8 @@ public class InfoDetailBdd extends ConnexionBdd {
 		ObservableList<InfoDetail> listeDonnees = FXCollections.observableArrayList();
 		InfoDetail infoDetail 				  	= null;
 		/** Initialisation de la requête **/
-		String SQL		= "SELECT * from InfoDetail WHERE infoEnteteIdt = ?";
+		/*String SQL		= "SELECT * from InfoDetail WHERE infoEnteteIdt = ?";*/
+		String SQL		= "SELECT InfoDetail.* from InfoDetail, InfoEntete WHERE InfoDetail.infoEnteteIdt = InfoEntete.infoEnteteIdt AND InfoEntete.infoEnteteKey = ?";
 		/** Connexion à la base de données **/
 		Connection connexion = trtConnexionBdd();
 		/** Traitements SQL */

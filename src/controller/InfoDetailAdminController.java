@@ -61,8 +61,7 @@ public class InfoDetailAdminController extends AdministrationManagementControlle
 
 	@Override
 	public void initialize() {
-		lblTitre.setText(infoEntete.getInfoEnteteKey());
-		trtAffichageDonnees();
+		
 	}
 	/**
 	 * Methode 	: trtAffichageDonnees
@@ -244,6 +243,9 @@ public class InfoDetailAdminController extends AdministrationManagementControlle
 	 */
 	public void setInfoEntete(InfoEntete infoEntete) {
 		this.infoEntete = infoEntete;
+		
+		lblTitre.setText(infoEntete.getInfoEnteteKey());
+		trtAffichageDonnees();
 		
 	}
 	/**
