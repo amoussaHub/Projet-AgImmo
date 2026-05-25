@@ -469,7 +469,6 @@ public class AgentDefinitionController extends GeneralDefinitionController imple
 					}
 				}
 				
-
 				validerClicked = true;
 				dialogStage.close();
 			}

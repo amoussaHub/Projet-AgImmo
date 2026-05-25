@@ -116,7 +116,7 @@ public class ContactBdd extends ConnexionBdd {
 			int 		contactCivilite		= resultset.getInt("contactCivilite");
 			int			contactType			= resultset.getInt("contactType");
 			
-			String 		contactTypeLbl		= resultset.getString("contactType");
+			String 		contactTypeLbl		= resultset.getString("contactTypeLabel");
 			
 			String 		contactMessage		= resultset.getString("contactMessage");
 			LocalDate	contactDateDemande	= resultset.getObject("contactDateDemande", LocalDate.class);
